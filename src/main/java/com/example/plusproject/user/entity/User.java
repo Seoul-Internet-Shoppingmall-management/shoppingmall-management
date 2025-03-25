@@ -1,5 +1,6 @@
 package com.example.plusproject.user.entity;
 
+import com.example.plusproject.common.entity.BaseEntity;
 import com.example.plusproject.user.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -16,7 +17,7 @@ import java.time.LocalDateTime;
 @Table(name = "\"user\"")
 @FilterDef(name = "activeUserFilter")
 @Filter(name = "activeUserFilter", condition = "deleted_at is null")
-public class User {
+public class User extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
