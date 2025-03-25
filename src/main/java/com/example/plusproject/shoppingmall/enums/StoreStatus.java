@@ -6,6 +6,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum StoreStatus {
+
     CLOSED,     //사이트 운영 중단
     ON_HOLD,    //휴업중
     ADVERTISEMENT,  //광고용(홍보용)

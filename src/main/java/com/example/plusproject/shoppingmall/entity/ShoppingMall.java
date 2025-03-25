@@ -16,6 +16,7 @@ public class ShoppingMall {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    // 우선 17개 필드값만 입력해 두었습니다. validation 필요한 것 체크할 예정
     private String companyName;
     private String storeName;
     private String domainName;
