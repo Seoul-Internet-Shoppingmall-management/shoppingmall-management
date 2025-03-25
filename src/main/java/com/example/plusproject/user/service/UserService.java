@@ -31,7 +31,8 @@ public class UserService {
 
         User user = User.builder()
                 .name(name)
-                .email(passwordEncoder.encode(password))
+                .email(email)
+                .password(passwordEncoder.encode(password))
                 .userRole(UserRole.of(userRole))
                 .build();
 
