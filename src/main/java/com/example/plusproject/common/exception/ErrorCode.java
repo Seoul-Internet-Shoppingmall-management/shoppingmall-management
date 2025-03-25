@@ -12,7 +12,11 @@ public enum ErrorCode {
     ALREADY_EXIST_EMAIL("이미 사용중인 이메일입니다.", HttpStatus.BAD_REQUEST),
 
     // NOT FOUND ERROR
-    NOT_FOUND_USER("존재하지 않는 사용자 입니다.", HttpStatus.NOT_FOUND)
+    NOT_FOUND_USER("존재하지 않는 사용자 입니다.", HttpStatus.NOT_FOUND),
+
+    // USER CLASS ERROR
+    WRONG_PASSWORD("비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
+    SELFSAME_PASSWORD("동일한 비밀번호로는 수정이 불가합니다.", HttpStatus.BAD_REQUEST)
     ;
 
     private final String message;
