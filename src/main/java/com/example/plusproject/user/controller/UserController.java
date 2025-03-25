@@ -2,9 +2,11 @@ package com.example.plusproject.user.controller;
 
 import com.example.plusproject.common.dto.AuthUser;
 import com.example.plusproject.user.dto.request.ChangePasswordRequestDto;
+import com.example.plusproject.user.dto.request.UserPasswordRequestDto;
 import com.example.plusproject.user.dto.request.UserUpdateRequestDto;
 import com.example.plusproject.user.dto.response.UserResponseDto;
 import com.example.plusproject.user.service.UserService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -17,6 +19,15 @@ public class UserController {
 
     private final UserService userService;
 
+    @PostMapping("/users/restore/{userId}")
+    public ResponseEntity<Void> restore(
+            @PathVariable Long userId,
+            @Valid @RequestBody UserPasswordRequestDto requestDto
+    ) {
+        userService.restore(userId, requestDto);
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/users/{userId}")
     public ResponseEntity<UserResponseDto> get(
             @PathVariable Long userId
@@ -27,7 +38,7 @@ public class UserController {
     @PatchMapping("/users")
     public ResponseEntity<UserResponseDto> update(
             @AuthenticationPrincipal AuthUser authUser,
-            @RequestBody UserUpdateRequestDto requestDto
+            @Valid @RequestBody UserUpdateRequestDto requestDto
     ) {
         return ResponseEntity.ok(userService.update(authUser, requestDto));
     }
@@ -35,9 +46,18 @@ public class UserController {
     @PutMapping("/users/password")
     public ResponseEntity<Void> changePassword(
             @AuthenticationPrincipal AuthUser authUser,
-            @RequestBody ChangePasswordRequestDto requestDto
+            @Valid @RequestBody ChangePasswordRequestDto requestDto
     ) {
         userService.changePassword(authUser, requestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/users")
+    public ResponseEntity<Void> delete(
+            @AuthenticationPrincipal AuthUser authUser,
+            @Valid @RequestBody UserPasswordRequestDto requestDto
+    ) {
+        userService.delete(authUser, requestDto);
         return ResponseEntity.ok().build();
     }
 }

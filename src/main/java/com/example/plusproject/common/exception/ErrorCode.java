@@ -16,8 +16,11 @@ public enum ErrorCode {
 
     // USER CLASS ERROR
     WRONG_PASSWORD("비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),
-    SELFSAME_PASSWORD("동일한 비밀번호로는 수정이 불가합니다.", HttpStatus.BAD_REQUEST)
+    SELFSAME_PASSWORD("동일한 비밀번호로는 수정이 불가합니다.", HttpStatus.BAD_REQUEST),
+    UNDELETED_USER("탈퇴 요청되지 않은 사용자입니다.", HttpStatus.BAD_REQUEST),
+    DELETED_USER("탈퇴 요청된 사용자입니다.", HttpStatus.BAD_REQUEST)
     ;
+
     private final String message;
     private final HttpStatus httpStatus;
 }

@@ -49,6 +49,7 @@ public class SecurityConfig {
                 // 이 authorizeHttpRequests 부분만 잘 조작하시고, 이해하시면 됩니다.
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(request -> request.getRequestURI().startsWith("/api/v1/auth")).permitAll()
+                        .requestMatchers(request -> request.getRequestURI().startsWith("/api/v1/users/restore")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .build();
