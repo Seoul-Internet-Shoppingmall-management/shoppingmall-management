@@ -1,6 +1,7 @@
 package com.example.plusproject.shoppingmall.entity;
 
 import com.example.plusproject.shoppingmall.enums.StoreStatus;
+import com.example.plusproject.shoppingmall.enums.TotalRating;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -25,8 +26,10 @@ public class ShoppingMall {
     private String businessType;
     private LocalDate registrationDate;
     private String companyAddress;
+    @Enumerated(EnumType.STRING)
     private StoreStatus storeStatus;
-    private int totalRating;
+    @Enumerated(EnumType.STRING)
+    private TotalRating totalRating;
     private String mainProducts;
     private String subscriptionWithdrawalAvailable;
     private String homepageRequiredItems;
