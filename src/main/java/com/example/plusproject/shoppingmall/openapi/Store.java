@@ -1,5 +1,6 @@
 package com.example.plusproject.shoppingmall.openapi;
 
+import com.example.plusproject.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public class Store {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    private Users users;
+    private User user;
 
     @Column(nullable = false)
     private String companyName;
