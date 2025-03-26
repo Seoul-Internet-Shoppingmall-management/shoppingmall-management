@@ -4,10 +4,12 @@ import com.example.plusproject.user.entity.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "stores")
 @NoArgsConstructor
@@ -18,57 +20,59 @@ public class Store {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
     private User user;
 
+    // 상호
     @Column(nullable = false)
     private String companyName;
 
-    @Column(nullable = false)
+    // 쇼핑몰명
+    @Column(unique = true)
     private String storeName;
 
-    @Column(nullable = false)
+    // 도메인명
     private String domainName;
 
-    @Column(nullable = false)
+    // 전화번호
     private String phoneNumber;
 
-    @Column(nullable = false)
+    // 운영자 이메일
     private String operatorEmail;
 
-    @Column(nullable = false)
+    // 영업형태
     private String businessType;
 
-    @Column(nullable = false)
+    // 최초신고일자
     private LocalDateTime registrationDate;
 
-    @Column(nullable = false)
+    // 회사주소
     private String companyAddress;
 
-    @Column(nullable = false)
+    // 업소상태
     private String storeStatus;
 
-    @Column(nullable = false)
+    // 전체평가
     private Integer totalRating;
 
-    @Column(nullable = false)
+    // 주요취급품목
     private String mainProducts;
 
-    @Column(nullable = false)
+    // 청약철회가능여부
     private String subscriptionWithdrawalAvailable;
 
-    @Column(nullable = false)
+    // 초기화면필수항목
     private String homepageRequiredItems;
 
-    @Column(nullable = false)
+    // 이용약관준수정도
     private String termsOfServiceCompliance;
 
-    @Column(nullable = false)
+    // 배송예정일표시
     private String estimateDeliveryDateDisplay;
 
-    @Column(nullable = false)
+    // 철회시배송비부담
     private String withdrawalShippingCostResponsibility;
 
-    @Column(nullable = false)
+    // 모니터링날짜
     private LocalDateTime monitoringDate;
 }
