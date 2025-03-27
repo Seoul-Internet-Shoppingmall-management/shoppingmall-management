@@ -21,7 +21,7 @@ public class QueryDSLController {
     public ResponseEntity<Page<QueryDSLResponseDto>> getShoppingMall(
             @RequestParam(required = false) TotalRating totalRating,
             @RequestParam(required = false) StoreStatus storeStatus,
-            @RequestParam Long cursorId,
+            @RequestParam(required = false) Long cursorId,
             @RequestParam(defaultValue = "10") int limit
     ) {
         Page<QueryDSLResponseDto> shoppingMalls = queryDSLService.findByShoppingMallsWithCursorId(
