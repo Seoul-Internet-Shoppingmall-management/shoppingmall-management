@@ -6,10 +6,7 @@ import com.example.plusproject.shoppingmall.enums.StoreStatus;
 import com.example.plusproject.shoppingmall.enums.TotalRating;
 import com.example.plusproject.shoppingmall.repository.ShoppingMallRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,7 +17,7 @@ public class QueryDSLService {
     private final ShoppingMallRepository shoppingMallRepository;
 
     @Transactional(readOnly = true)
-    public Page<QueryDSLResponseDto> findByShoppingMallsWithCursorId(
+    public Slice<QueryDSLResponseDto> findByShoppingMallsWithCursorId(
             TotalRating totalRating,
             StoreStatus storeStatus,
             Long cursorId,
@@ -28,7 +25,7 @@ public class QueryDSLService {
     ) {
         Pageable pageable = PageRequest.of(0, limit, Sort.by(Sort.Order.asc("id")));
 
-        Page<ShoppingMall> shoppingMalls;
+        Slice<ShoppingMall> shoppingMalls;
 
         if (cursorId == null) {
             throw new IllegalStateException("마지막 위치가 확인되지 않습니다.");

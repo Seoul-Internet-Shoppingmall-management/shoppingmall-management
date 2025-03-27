@@ -6,6 +6,7 @@ import com.example.plusproject.shoppingmall.enums.TotalRating;
 import com.example.plusproject.queryDSL.repository.QueryDSLRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -20,7 +21,7 @@ public interface ShoppingMallRepository extends JpaRepository<ShoppingMall, Long
             "AND s.storeStatus = :storeStatus " +
             "AND s.id > :cursorId " + // 커서ID 이후의 값만 가져오기
             "ORDER BY s.id ASC")  // id 오름차순으로 정렬
-    Page<ShoppingMall> findByTotalRatingAndStoreStatusAfterId(
+    Slice<ShoppingMall> findByTotalRatingAndStoreStatusAfterId(
             @Param("totalRating") TotalRating totalRating,
             @Param("storeStatus") StoreStatus storeStatus,
             @Param("cursorId") Long cursorId,
@@ -31,7 +32,7 @@ public interface ShoppingMallRepository extends JpaRepository<ShoppingMall, Long
             "WHERE s.totalRating = :totalRating " +
             "AND s.id > :cursorId " + // 커서ID 이후의 값만 가져오기
             "ORDER BY s.id ASC")  // id 오름차순으로 정렬
-    Page<ShoppingMall> findByTotalRatingAfterId(
+    Slice<ShoppingMall> findByTotalRatingAfterId(
             @Param("totalRating") TotalRating totalRating,
             @Param("cursorId") Long cursorId,
             Pageable pageable);
@@ -40,7 +41,7 @@ public interface ShoppingMallRepository extends JpaRepository<ShoppingMall, Long
             "WHERE s.storeStatus = :storeStatus " +
             "AND s.id > :cursorId " + // 커서ID 이후의 값만 가져오기
             "ORDER BY s.id ASC")  // id 오름차순으로 정렬
-    Page<ShoppingMall> findByStoreStatusAfterId(
+    Slice<ShoppingMall> findByStoreStatusAfterId(
             @Param("storeStatus") StoreStatus storeStatus,
             @Param("cursorId") Long cursorId,
             Pageable pageable
