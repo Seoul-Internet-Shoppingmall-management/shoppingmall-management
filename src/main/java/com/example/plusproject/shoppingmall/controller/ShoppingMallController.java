@@ -2,6 +2,7 @@ package com.example.plusproject.shoppingmall.controller;
 
 import com.example.plusproject.filter.dto.ShoppingMallResponseDto;
 import com.example.plusproject.filter.dto.ShoppingMallUpdateRequestDto;
+import com.example.plusproject.shoppingmall.dto.response.ShoppingMallResponse;
 import com.example.plusproject.shoppingmall.entity.ShoppingMall;
 import com.example.plusproject.shoppingmall.enums.StoreStatus;
 import com.example.plusproject.shoppingmall.enums.TotalRating;
@@ -24,15 +25,13 @@ public class ShoppingMallController {
 
     // 쇼핑몰을 페이징해서 조회(필터 적용 가능)
     @GetMapping("/api/v1/shopping-malls")
-    public ResponseEntity<Page<ShoppingMall>> getShoppingMalls(
+    public ResponseEntity<Page<ShoppingMallResponse>> getShoppingMalls(
             @RequestParam(required = false) StoreStatus storeStatus,
             @RequestParam(required = false) TotalRating totalRating,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
             ) {
 
-        Pageable pageable = PageRequest.of(page, size);
-
-        return ResponseEntity.ok(shoppingMallService.getShoppingMalls(storeStatus, totalRating, pageable));
+        return ResponseEntity.ok(shoppingMallService.getShoppingMalls(storeStatus, totalRating, page, size));
     }
 }
