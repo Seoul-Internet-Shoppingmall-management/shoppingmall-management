@@ -13,8 +13,7 @@ public enum StoreStatus {
     INFORMATION_MISMATCH("등록정보불일치"),   //등록정보불일치
     SHUTDOWN("사이트폐쇄"),   //사이트폐쇄
     OPEN("영업중"),   //영업중
-    PENDING("확인안됨") //확인안됨
-    ;
+    PENDING("확인안됨");     //확인안됨
 
-    private final String status;
+    private final String storeStatus;
 }
