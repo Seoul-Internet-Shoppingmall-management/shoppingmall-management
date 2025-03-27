@@ -19,9 +19,9 @@ public class QueryDSLController {
 
     @GetMapping("/api/v1/shopping-malls/filters/cursor-based")
     public ResponseEntity<Page<QueryDSLResponseDto>> getShoppingMall(
-            @RequestParam TotalRating totalRating,
-            @RequestParam StoreStatus storeStatus,
-            @RequestParam(required = false) Long cursorId,
+            @RequestParam(required = false) TotalRating totalRating,
+            @RequestParam(required = false) StoreStatus storeStatus,
+            @RequestParam Long cursorId,
             @RequestParam(defaultValue = "10") int limit
     ) {
         Page<QueryDSLResponseDto> shoppingMalls = queryDSLService.findByShoppingMallsWithCursorId(
