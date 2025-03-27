@@ -22,10 +22,10 @@ public class ShoppingMallResponse {
     private final TotalRating totalRating;
     private final String mainProducts;
     private final String subscriptionWithdrawalAvailable;
-    private final String homepageRequriedItems;
+    private final String homepageRequiredItems;
     private final String termsOfServiceCompliance;
     private final String estimateDeliveryDateDisplay;
-    private final String withdrawalShippingCostResopnsibility;
+    private final String withdrawalShippingCostResponsibility;
     private final LocalDate monitoringDate;
     private final User createdBy;
     private final User modifiedBy;
@@ -63,10 +63,10 @@ public class ShoppingMallResponse {
         this.totalRating = totalRating;
         this.mainProducts = mainProducts;
         this.subscriptionWithdrawalAvailable = subscriptionWithdrawalAvailable;
-        this.homepageRequriedItems = homepageRequiredItems;
+        this.homepageRequiredItems = homepageRequiredItems;
         this.termsOfServiceCompliance = termsOfServiceCompliance;
         this.estimateDeliveryDateDisplay = estimateDeliveryDateDisplay;
-        this.withdrawalShippingCostResopnsibility = withdrawalShippingCostResponsibility;
+        this.withdrawalShippingCostResponsibility = withdrawalShippingCostResponsibility;
         this.monitoringDate = monitoringDate;
         this.createdBy = createdBy;
         this.modifiedBy = modifiedBy;
