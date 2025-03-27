@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 //repository 메서드 이용
 //페이지네이션 이용(정렬)
@@ -35,17 +36,20 @@ public class FilterController {
         Sort sort1 = Sort.by(Sort.Direction.fromString("ASC"), "companyName");//ASC 정렬       //정렬 기준: companyName
         Sort sort2 = Sort.by(Sort.Direction.fromString("ASC"), "monitoringDate");//ASC 정렬       //정렬 기준: monitoringDate
 
+        List<ShoppingMallResponseDto> result;
         if(totalRating!=null && storeStatus==null && monitoringStartDate==null && monitoringEndDate==null){//TotalRating
-            return ResponseEntity.ok(filterService.findByTotalRating(sort1, totalRating));
+            result = filterService.findByTotalRating(sort1, totalRating);
         }
         else if(totalRating==null && storeStatus!=null && monitoringStartDate==null && monitoringEndDate==null){//StoreStatus
-            return ResponseEntity.ok(filterService.findByStoreStatus(sort1, storeStatus));
+            result = filterService.findByStoreStatus(sort1, storeStatus);
         }
         else if(totalRating==null && storeStatus==null && (monitoringStartDate!=null || monitoringEndDate!=null)){ //MonitoringDate
-            return ResponseEntity.ok(filterService.findByMonitoringDate(sort2, monitoringStartDate, monitoringEndDate));
+            result = filterService.findByMonitoringDate(sort2, monitoringStartDate, monitoringEndDate);
         }
         else{
             throw new ApplicationException(ErrorCode.FILTER_REQUEST_NULL);
         }
+
+        return ResponseEntity.ok(result.stream().limit(10).collect(Collectors.toList()));//상위 10개
     }
 }
