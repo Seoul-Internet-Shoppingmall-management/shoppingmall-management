@@ -4,7 +4,6 @@ import com.example.plusproject.shoppingmall.entity.ShoppingMall;
 import com.example.plusproject.shoppingmall.enums.StoreStatus;
 import com.example.plusproject.shoppingmall.enums.TotalRating;
 import com.example.plusproject.queryDSL.repository.QueryDSLRepository;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
