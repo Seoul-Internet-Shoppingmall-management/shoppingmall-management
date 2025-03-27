@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api")
 public class UserController {
 
     private final UserService userService;
 
-    @PostMapping("/users/restore/{userId}")
+    @PostMapping("/v1/users/restore/{userId}")
     public ResponseEntity<Void> restore(
             @PathVariable Long userId,
             @Valid @RequestBody UserPasswordRequestDto requestDto
@@ -28,14 +28,14 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/users/{userId}")
+    @GetMapping("/v1/users/{userId}")
     public ResponseEntity<UserResponseDto> get(
             @PathVariable Long userId
     ) {
         return ResponseEntity.ok(userService.get(userId));
     }
 
-    @PatchMapping("/users")
+    @PatchMapping("/v1/users")
     public ResponseEntity<UserResponseDto> update(
             @AuthenticationPrincipal AuthUser authUser,
             @Valid @RequestBody UserUpdateRequestDto requestDto
@@ -43,7 +43,7 @@ public class UserController {
         return ResponseEntity.ok(userService.update(authUser, requestDto));
     }
 
-    @PutMapping("/users/password")
+    @PutMapping("/v1/users/password")
     public ResponseEntity<Void> changePassword(
             @AuthenticationPrincipal AuthUser authUser,
             @Valid @RequestBody ChangePasswordRequestDto requestDto
@@ -52,7 +52,7 @@ public class UserController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/users")
+    @DeleteMapping("/v1/users")
     public ResponseEntity<Void> delete(
             @AuthenticationPrincipal AuthUser authUser,
             @Valid @RequestBody UserPasswordRequestDto requestDto
