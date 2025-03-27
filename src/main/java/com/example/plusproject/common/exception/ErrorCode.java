@@ -21,6 +21,9 @@ public enum ErrorCode {
     UNDELETED_USER("탈퇴 요청되지 않은 사용자입니다.", HttpStatus.BAD_REQUEST),
     DELETED_USER("탈퇴 요청된 사용자입니다.", HttpStatus.BAD_REQUEST),
 
+    // FILTER REQUEST NULL ERROR
+    FILTER_REQUEST_NULL("필터할 값을 인식할 수 없습니다.", HttpStatus.BAD_REQUEST)
+      
     // SHOPPING_MALLS CLASS ERROR
     EMPTY_FILE("파일이 비어 있습니다.", HttpStatus.BAD_REQUEST)
     ;
