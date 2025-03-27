@@ -1,4 +1,4 @@
-package com.example.plusproject.shoppingmall.openapi;
+package com.example.plusproject.shoppingmall.dto;
 
 import lombok.Getter;
 

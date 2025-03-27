@@ -18,4 +18,6 @@ public interface ShoppingMallRepository extends JpaRepository<ShoppingMall, Long
     Page<ShoppingMall> findByMonitoringDateBetween(LocalDate startDateTime, LocalDate endDateTime, Pageable pageable);
     Page<ShoppingMall> findByMonitoringDateAfter(LocalDate startDateTime, Pageable pageable);
     Page<ShoppingMall> findByMonitoringDateBefore(LocalDate endDateTime, Pageable pageable);
+    // 쇼핑몰명이 존재하는지 검색
+    boolean existsByStoreName(String storeName);
 }
