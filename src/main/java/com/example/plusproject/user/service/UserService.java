@@ -150,4 +150,10 @@ public class UserService {
         user.formDeletedAt(LocalDateTime.now());
     }
 
+    @Transactional
+    public User getUserEntity(Long userId) {
+        return userRepository.findById(userId).orElseThrow(
+                () -> new ApplicationException(ErrorCode.NOT_FOUND_USER)
+        );
+    }
 }
