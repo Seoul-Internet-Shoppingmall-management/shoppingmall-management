@@ -15,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvValidationException;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,6 +35,7 @@ public class ShoppingMallService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final ShoppingMallRepository shoppingMallRepository;
+    private final ModelMapper modelMapper;
 
     private static final int BATCH_SIZE = 100;
 
@@ -54,25 +56,18 @@ public class ShoppingMallService {
                 () -> new ApplicationException(ErrorCode.NOT_FOUND_SHOPPING_MALL)
         );
 
-        shoppingMall.update(
-                requestDto.getCompanyName(),
-                requestDto.getStoreStatus(),
-                requestDto.getDomainName(),
-                requestDto.getPhoneNumber(),
-                requestDto.getOperatorEmail(),
-                requestDto.getBusinessType(),
-                requestDto.getRegistrationDate(),
-                requestDto.getCompanyAddress(),
-                StoreStatus.of(requestDto.getStoreStatus()),
-                TotalRating.of(requestDto.getTotalRating()),
-                requestDto.getMainProducts(),
-                requestDto.getSubscriptionWithdrawalAvailable(),
-                requestDto.getHomepageRequiredItems(),
-                requestDto.getTermsOfServiceCompliance(),
-                requestDto.getEstimateDeliveryDateDisplay(),
-                requestDto.getWithdrawalShippingCostResponsibility(),
-                LocalDate.now()
-                );
+        // modelMapper 이용한 자동 변환 (null 무시)
+        modelMapper.map(requestDto, shoppingMall);
+
+        // Enum 타입은 수동으로
+        if (requestDto.getStoreStatus() != null) {
+            shoppingMall.changeStoreStatus(StoreStatus.of(requestDto.getStoreStatus()));
+        }
+        if (requestDto.getTotalRating() != null) {
+            shoppingMall.changeTotalRating(TotalRating.of(requestDto.getTotalRating()));
+        }
+        // 모니터링일자 갱신
+        shoppingMall.changeMonitoringDate(LocalDate.now());
     }
 
     /*---------------------------------------------- Open API ----------------------------------------------------------*/

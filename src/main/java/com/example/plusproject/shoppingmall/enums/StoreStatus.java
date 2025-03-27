@@ -20,6 +20,9 @@ public enum StoreStatus {
     private final String storeStatus;
 
     public static StoreStatus of(String status) {
+        if (status == null) {
+            return null;
+        }
         return Arrays.stream(StoreStatus.values())
                 .filter(s -> s.storeStatus.equals(status))
                 .findFirst()
