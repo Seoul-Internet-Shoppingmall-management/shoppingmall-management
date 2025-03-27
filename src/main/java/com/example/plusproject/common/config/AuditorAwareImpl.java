@@ -1,8 +1,6 @@
 package com.example.plusproject.common.config;
 
 import com.example.plusproject.common.dto.AuthUser;
-import com.example.plusproject.common.exception.ApplicationException;
-import com.example.plusproject.common.exception.ErrorCode;
 import com.example.plusproject.user.entity.User;
 import com.example.plusproject.user.service.UserService;
 import lombok.RequiredArgsConstructor;
