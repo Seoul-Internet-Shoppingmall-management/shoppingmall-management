@@ -22,10 +22,11 @@ public enum ErrorCode {
     DELETED_USER("탈퇴 요청된 사용자입니다.", HttpStatus.BAD_REQUEST),
 
     // FILTER REQUEST NULL ERROR
-    FILTER_REQUEST_NULL("필터할 값을 인식할 수 없습니다.", HttpStatus.BAD_REQUEST)
+    FILTER_REQUEST_NULL("필터할 값을 인식할 수 없습니다.", HttpStatus.BAD_REQUEST),
       
     // SHOPPING_MALLS CLASS ERROR
-    EMPTY_FILE("파일이 비어 있습니다.", HttpStatus.BAD_REQUEST)
+    EMPTY_FILE("파일이 비어 있습니다.", HttpStatus.BAD_REQUEST),
+    NOT_INT_VALUE_OF_TOTAL_RATING("전체 평가는 숫자로 입력해 주세요.", HttpStatus.BAD_REQUEST)
     ;
 
     private final String message;
