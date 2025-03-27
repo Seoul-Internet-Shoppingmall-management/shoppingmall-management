@@ -1,6 +1,5 @@
 package com.example.plusproject.common.config;
 
-import com.example.plusproject.user.enums.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
