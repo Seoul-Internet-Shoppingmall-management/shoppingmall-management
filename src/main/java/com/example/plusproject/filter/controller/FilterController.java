@@ -24,7 +24,7 @@ import java.util.List;
 public class FilterController {
     private final FilterService filterService;
 
-    /*다건 조회 todo: TotalRating 검색*/
+    /*다건 조회 todo: TotalRating & StoreStatus & MonitoringDate 검색*/
     @GetMapping("/v1/shopping-malls/filters")
     public ResponseEntity<List<ShoppingMallResponseDto>> findFilter(
             @RequestParam(required = false) TotalRating totalRating, //TotalRating
