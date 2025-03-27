@@ -28,11 +28,23 @@ public class QueryDSLRepositoryImpl implements QueryDSLRepository {
             Pageable pageable
     ) {
         QShoppingMall shoppingMall = QShoppingMall.shoppingMall;
-        //필터 충족시키는 기본 쿼리 구현
-        JPAQuery<ShoppingMall> query = jpaQueryFactory.selectFrom(shoppingMall)
-                .where(shoppingMall.totalRating.eq(totalRating)
-                        .and(shoppingMall.storeStatus.eq(storeStatus)));
+        JPAQuery<ShoppingMall> query = jpaQueryFactory.selectFrom(shoppingMall);
 
+        //두 조건을 다 만족 시키는 경우
+        if (totalRating != null && storeStatus != null) {
+            query.where(shoppingMall.totalRating.eq(totalRating)
+                    .and(shoppingMall.storeStatus.eq(storeStatus)));
+        }
+        //전체 평가만 존재하는 경우
+        if (totalRating != null) {
+            query.where(shoppingMall.totalRating.eq(totalRating));
+        }
+        //영업상태만 존재하는 경우
+        if (storeStatus != null) {
+            query.where(shoppingMall.storeStatus.eq(storeStatus));
+        }
+
+        //커서ID가 존재하는 경우
         if (cursorId != null) {
             query.where(shoppingMall.id.gt(cursorId));
         }

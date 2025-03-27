@@ -1,4 +1,4 @@
-package com.example.plusproject.queryDSL.config;
+package com.example.plusproject.common.config;
 
 import com.querydsl.jpa.JPQLTemplates;
 import com.querydsl.jpa.impl.JPAQueryFactory;

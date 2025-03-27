@@ -9,6 +9,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
+
 import java.time.LocalDate;
 
 public interface ShoppingMallRepository extends JpaRepository<ShoppingMall, Long>, QueryDSLRepository {
@@ -18,6 +20,8 @@ public interface ShoppingMallRepository extends JpaRepository<ShoppingMall, Long
             @Param("storeStatus") StoreStatus storeStatus,
             Pageable pageable
     );
+    Page<ShoppingMall> findByTotalRating(@Param("totalRating") TotalRating totalRating, Pageable pageable);
+    Page<ShoppingMall> findByStoreStatus(@Param("storeStatus") StoreStatus storeStatus, Pageable pageable);
 
     @Query("SELECT s FROM ShoppingMall s " +
             "WHERE s.totalRating = :totalRating " +
@@ -26,6 +30,25 @@ public interface ShoppingMallRepository extends JpaRepository<ShoppingMall, Long
             "ORDER BY s.id ASC")  // id 오름차순으로 정렬
     Page<ShoppingMall> findByTotalRatingAndStoreStatusAfterId(
             @Param("totalRating") TotalRating totalRating,
+            @Param("storeStatus") StoreStatus storeStatus,
+            @Param("cursorId") Long cursorId,
+            Pageable pageable
+    );
+
+    @Query("SELECT s FROM ShoppingMall s " +
+            "WHERE s.totalRating = :totalRating " +
+            "AND s.id > :cursorId " + // 커서ID 이후의 값만 가져오기
+            "ORDER BY s.id ASC")  // id 오름차순으로 정렬
+    Page<ShoppingMall> findByTotalRatingAfterId(
+            @Param("totalRating") TotalRating totalRating,
+            @Param("cursorId") Long cursorId,
+            Pageable pageable);
+
+    @Query("SELECT s FROM ShoppingMall s " +
+            "WHERE s.storeStatus = :storeStatus " +
+            "AND s.id > :cursorId " + // 커서ID 이후의 값만 가져오기
+            "ORDER BY s.id ASC")  // id 오름차순으로 정렬
+    Page<ShoppingMall> findByStoreStatusAfterId(
             @Param("storeStatus") StoreStatus storeStatus,
             @Param("cursorId") Long cursorId,
             Pageable pageable
