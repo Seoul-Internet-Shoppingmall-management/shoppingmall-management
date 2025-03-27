@@ -51,7 +51,9 @@ public class FilterService {
                         shoppingMall.getTermsOfServiceCompliance(),
                         shoppingMall.getEstimateDeliveryDateDisplay(),
                         shoppingMall.getWithdrawalShippingCostResponsibility(),
-                        shoppingMall.getMonitoringDate()
+                        shoppingMall.getMonitoringDate(),
+                        shoppingMall.getCreatedAt(),
+                        shoppingMall.getModifiedAt()
                 ))
                 .collect(Collectors.toList());
     }
@@ -87,7 +89,9 @@ public class FilterService {
                         shoppingMall.getTermsOfServiceCompliance(),
                         shoppingMall.getEstimateDeliveryDateDisplay(),
                         shoppingMall.getWithdrawalShippingCostResponsibility(),
-                        shoppingMall.getMonitoringDate()
+                        shoppingMall.getMonitoringDate(),
+                        shoppingMall.getCreatedAt(),
+                        shoppingMall.getModifiedAt()
                 ))
                 .collect(Collectors.toList());
     }
@@ -129,7 +133,9 @@ public class FilterService {
                         shoppingMall.getTermsOfServiceCompliance(),
                         shoppingMall.getEstimateDeliveryDateDisplay(),
                         shoppingMall.getWithdrawalShippingCostResponsibility(),
-                        shoppingMall.getMonitoringDate()
+                        shoppingMall.getMonitoringDate(),
+                        shoppingMall.getCreatedAt(),
+                        shoppingMall.getModifiedAt()
                 ))
                 .collect(Collectors.toList());
     }

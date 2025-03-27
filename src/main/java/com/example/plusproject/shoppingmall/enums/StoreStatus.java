@@ -3,6 +3,8 @@ package com.example.plusproject.shoppingmall.enums;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
+import java.util.Arrays;
+
 @Getter
 @AllArgsConstructor
 public enum StoreStatus {
@@ -16,4 +18,11 @@ public enum StoreStatus {
     PENDING("확인안됨");     //확인안됨
 
     private final String storeStatus;
+
+    public static StoreStatus of(String status) {
+        return Arrays.stream(StoreStatus.values())
+                .filter(s -> s.storeStatus.equals(status))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("유효하지 않은 StoreStatus 값: " + status));
+    }
 }

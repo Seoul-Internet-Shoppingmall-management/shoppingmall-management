@@ -13,6 +13,7 @@ public enum ErrorCode {
 
     // NOT FOUND ERROR
     NOT_FOUND_USER("존재하지 않는 사용자 입니다.", HttpStatus.NOT_FOUND),
+    NOT_FOUND_SHOPPING_MALL("존재하지 않는 쇼핑몰 입니다.", HttpStatus.NOT_FOUND),
 
     // USER CLASS ERROR
     WRONG_PASSWORD("비밀번호가 일치하지 않습니다.", HttpStatus.BAD_REQUEST),

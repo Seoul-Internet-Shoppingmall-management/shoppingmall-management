@@ -3,16 +3,21 @@ package com.example.plusproject.shoppingmall.entity;
 import com.example.plusproject.common.entity.BaseEntity;
 import com.example.plusproject.shoppingmall.enums.StoreStatus;
 import com.example.plusproject.shoppingmall.enums.TotalRating;
+import com.example.plusproject.user.entity.User;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedBy;
+import org.springframework.data.annotation.LastModifiedBy;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.LocalDate;
 
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "seoul_of_shopping_malls")
+@Table(name = "shopping_malls_of_seoul")
 public class ShoppingMall extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,4 +44,51 @@ public class ShoppingMall extends BaseEntity {
     private String withdrawalShippingCostResponsibility;
     private LocalDate monitoringDate;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "createdBy_id", nullable = false)
+    @CreatedBy
+    private User createdBy;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "modifiedBy_id", nullable = false)
+    @LastModifiedBy
+    private User modifiedBy;
+
+
+    public void update(
+            String companyName,
+            String storeStatus,
+            String domainName,
+            String phoneNumber,
+            String operatorEmail,
+            String businessType,
+            LocalDate registrationDate,
+            String companyAddress,
+            StoreStatus storeStatus1,
+            TotalRating totalRating,
+            String mainProducts,
+            String subscriptionWithdrawalAvailable,
+            String homepageRequiredItems,
+            String termsOfServiceCompliance,
+            String estimateDeliveryDateDisplay,
+            String withdrawalShippingCostResponsibility,
+            LocalDate now)
+    {
+        this.companyName = companyName;
+        this.storeName = storeStatus;
+        this.domainName = domainName;
+        this.phoneNumber = phoneNumber;
+        this.operatorEmail = operatorEmail;
+        this.businessType = businessType;
+        this.registrationDate = registrationDate;
+        this.companyAddress = companyAddress;
+        this.storeStatus = storeStatus1;
+        this.totalRating = totalRating;
+        this.mainProducts = mainProducts;
+        this.subscriptionWithdrawalAvailable = subscriptionWithdrawalAvailable;
+        this.homepageRequiredItems = homepageRequiredItems;
+        this.termsOfServiceCompliance = termsOfServiceCompliance;
+        this.estimateDeliveryDateDisplay = estimateDeliveryDateDisplay;
+        this.withdrawalShippingCostResponsibility = withdrawalShippingCostResponsibility;
+        this.monitoringDate = now;
+    }
 }
