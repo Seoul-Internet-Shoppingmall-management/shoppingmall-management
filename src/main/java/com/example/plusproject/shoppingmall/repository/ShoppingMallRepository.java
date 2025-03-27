@@ -13,14 +13,6 @@ import java.time.LocalDate;
 
 public interface ShoppingMallRepository extends JpaRepository<ShoppingMall, Long>, QueryDSLRepository {
 
-    Page<ShoppingMall> findByTotalRatingAndStoreStatus(
-            @Param("totalRating") TotalRating totalRating,
-            @Param("storeStatus") StoreStatus storeStatus,
-            Pageable pageable
-    );
-    Page<ShoppingMall> findByTotalRating(@Param("totalRating") TotalRating totalRating, Pageable pageable);
-    Page<ShoppingMall> findByStoreStatus(@Param("storeStatus") StoreStatus storeStatus, Pageable pageable);
-
     @Query("SELECT s FROM ShoppingMall s " +
             "WHERE s.totalRating = :totalRating " +
             "AND s.storeStatus = :storeStatus " +
