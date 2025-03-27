@@ -26,13 +26,13 @@ public class QueryDSLService {
             Long cursorId,
             int limit
     ) {
-        if (cursorId == null) {
-            throw new IllegalStateException("마지막 위치가 확인되지 않습니다.");
-        }
         Pageable pageable = PageRequest.of(0, limit, Sort.by(Sort.Order.asc("id")));
 
         Page<ShoppingMall> shoppingMalls;
 
+        if (cursorId == null) {
+            throw new IllegalStateException("마지막 위치가 확인되지 않습니다.");
+        }
         if (totalRating != null && storeStatus != null) {
             // 두 가지가 모두 있을 경우
             shoppingMalls = shoppingMallRepository.findByTotalRatingAndStoreStatusAfterId(totalRating, storeStatus, cursorId, pageable);
