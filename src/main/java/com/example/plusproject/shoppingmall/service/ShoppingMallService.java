@@ -18,6 +18,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Service
@@ -75,6 +76,12 @@ public class ShoppingMallService {
             String[] line;
 
             while ((line = reader.readNext()) != null) {
+                // 행 전체가 공백이라면 무시하고 다음 행부터 읽음
+                boolean isBlankLine = Arrays.stream(line).allMatch(cell -> cell == null || cell.trim().isEmpty());
+                if (isBlankLine) {
+                    continue;
+                }
+
                 ShoppingMall shoppingMall = mapToEntity(line);
                 batchList.add(shoppingMall);
 
@@ -96,6 +103,15 @@ public class ShoppingMallService {
     }
 
     private ShoppingMall mapToEntity(String[] line) {
+
+        // 전체평가 점수가 숫자가 아닐 경우 예외처리
+        int ratingValue;
+        try {
+            ratingValue = Integer.parseInt(line[10]);
+        } catch (NumberFormatException e) {
+            throw new ApplicationException(ErrorCode.NOT_INT_VALUE_OF_TOTAL_RATING);
+        }
+
         return ShoppingMall.builder()
                 .companyName(line[0])
                 .storeName(line[1])
@@ -105,8 +121,8 @@ public class ShoppingMallService {
                 .businessType(line[5])
                 .registrationDate(LocalDate.parse(line[7]))
                 .companyAddress(line[8])
-                .storeStatus(StoreStatus.valueOf(line[9]))
-                .totalRating(TotalRating.valueOf(line[10]))
+                .storeStatus(StoreStatus.of(line[9]))
+                .totalRating(TotalRating.of(ratingValue))
                 .mainProducts(line[16])
                 .subscriptionWithdrawalAvailable(line[17])
                 .homepageRequiredItems(line[18])

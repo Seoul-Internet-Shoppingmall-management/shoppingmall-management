@@ -37,10 +37,8 @@ public class ShoppingMallController {
             shoppingMallService.saveCsvFileDeveloped(tempFile.getAbsolutePath());
 
             // 임시 파일 삭제
-            tempFile.delete();
-
             if (!tempFile.delete()) {
-                throw new IOException("임시 파일 삭제 실패: " + tempFile.getAbsolutePath());
+                tempFile.deleteOnExit();
             }
         } catch (IOException e) {
             return ResponseEntity.status(500).build();
