@@ -6,14 +6,14 @@ import com.example.plusproject.shoppingmall.enums.StoreStatus;
 import com.example.plusproject.shoppingmall.enums.TotalRating;
 import com.example.plusproject.shoppingmall.repository.ShoppingMallRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
+import java.util.stream.Collectors;
 
 //repository 메서드 이용
 //페이지네이션 이용(정렬)
@@ -24,45 +24,17 @@ public class FilterService {
 
     /*다건 조회 todo: TotalRating 검색*/
     @Transactional(readOnly = true)
-    public Page<ShoppingMallResponseDto> findTotalRatingFilter(Pageable pageable, TotalRating totalRating) {
-        Page<ShoppingMall> shoppingMalls;
+    public List<ShoppingMallResponseDto> findByTotalRating(Sort sort, TotalRating totalRating) {
+        List<ShoppingMall> shoppingMalls;
 
-        if(totalRating!=null){ shoppingMalls = shoppingMallRepository.findBytotalRating(totalRating, pageable); }//totalRating 검색
-        else{ shoppingMalls = shoppingMallRepository.findAll(pageable); }//검색 지정이 없는 경우, 모두 출력
+        if (totalRating!=null) {
+            shoppingMalls = shoppingMallRepository.findByTotalRating(totalRating, sort);//totalRating 검색
+        } else {
+            shoppingMalls = shoppingMallRepository.findAll(sort);//검색 지정이 없는 경우, 모두 출력
+        }
 
-        return shoppingMalls.map(shoppingMall -> new ShoppingMallResponseDto(
-                shoppingMall.getCompanyName(),
-                shoppingMall.getStoreName(),
-                shoppingMall.getDomainName(),
-                shoppingMall.getPhoneNumber(),
-                shoppingMall.getOperatorEmail(),
-                shoppingMall.getBusinessType(),
-                shoppingMall.getRegistrationDate(),
-                shoppingMall.getCompanyAddress(),
-                shoppingMall.getStoreStatus(),
-                shoppingMall.getTotalRating(),
-                shoppingMall.getMainProducts(),
-                shoppingMall.getSubscriptionWithdrawalAvailable(),
-                shoppingMall.getHomepageRequiredItems(),
-                shoppingMall.getTermsOfServiceCompliance(),
-                shoppingMall.getEstimateDeliveryDateDisplay(),
-                shoppingMall.getWithdrawalShippingCostResponsibility(),
-                shoppingMall.getMonitoringDate()
-                )
-        );
-    }
-
-
-
-    /*다건 조회 todo: StoreStatus 검색*/
-    @Transactional(readOnly = true)
-    public Page<ShoppingMallResponseDto> findStoreStatusFilter(Pageable pageable, StoreStatus storeStatus) {
-        Page<ShoppingMall> shoppingMalls;
-
-        if(storeStatus!=null){ shoppingMalls = shoppingMallRepository.findBystoreStatus(storeStatus, pageable); }//storeStatus 검색
-        else{ shoppingMalls = shoppingMallRepository.findAll(pageable); }//검색 지정이 없는 경우, 모두 출력
-
-        return shoppingMalls.map(shoppingMall -> new ShoppingMallResponseDto(
+        return shoppingMalls.stream()
+                .map(shoppingMall -> new ShoppingMallResponseDto(
                         shoppingMall.getCompanyName(),
                         shoppingMall.getStoreName(),
                         shoppingMall.getDomainName(),
@@ -80,15 +52,51 @@ public class FilterService {
                         shoppingMall.getEstimateDeliveryDateDisplay(),
                         shoppingMall.getWithdrawalShippingCostResponsibility(),
                         shoppingMall.getMonitoringDate()
-                )
-        );
+                ))
+                .collect(Collectors.toList());
+    }
+
+
+
+    /*다건 조회 todo: StoreStatus 검색*/
+    @Transactional(readOnly = true)
+    public List<ShoppingMallResponseDto> findByStoreStatus(Sort sort, StoreStatus storeStatus) {
+        List<ShoppingMall> shoppingMalls;
+
+        if (storeStatus!=null) {
+            shoppingMalls = shoppingMallRepository.findBystoreStatus(storeStatus, sort);//storeStatus 검색
+        } else {
+            shoppingMalls = shoppingMallRepository.findAll(sort);//검색 지정이 없는 경우, 모두 출력
+        }
+
+        return shoppingMalls.stream()
+                .map(shoppingMall -> new ShoppingMallResponseDto(
+                        shoppingMall.getCompanyName(),
+                        shoppingMall.getStoreName(),
+                        shoppingMall.getDomainName(),
+                        shoppingMall.getPhoneNumber(),
+                        shoppingMall.getOperatorEmail(),
+                        shoppingMall.getBusinessType(),
+                        shoppingMall.getRegistrationDate(),
+                        shoppingMall.getCompanyAddress(),
+                        shoppingMall.getStoreStatus(),
+                        shoppingMall.getTotalRating(),
+                        shoppingMall.getMainProducts(),
+                        shoppingMall.getSubscriptionWithdrawalAvailable(),
+                        shoppingMall.getHomepageRequiredItems(),
+                        shoppingMall.getTermsOfServiceCompliance(),
+                        shoppingMall.getEstimateDeliveryDateDisplay(),
+                        shoppingMall.getWithdrawalShippingCostResponsibility(),
+                        shoppingMall.getMonitoringDate()
+                ))
+                .collect(Collectors.toList());
     }
 
 
 
     /*다건 조회 todo: MonitoringDate 검색*/
     @Transactional(readOnly = true)
-    public Page<ShoppingMallResponseDto> findMonitoringDateFilter(Pageable pageable, String monitoringStartDate, String monitoringEndDate) {
+    public List<ShoppingMallResponseDto> findByMonitoringDate(Sort sort, String monitoringStartDate, String monitoringEndDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
         LocalDate startDateTime = null;
@@ -96,14 +104,15 @@ public class FilterService {
         if(monitoringStartDate!=null) startDateTime = LocalDate.parse(monitoringStartDate, formatter);//형식 변환
         if(monitoringEndDate!=null) endDateTime = LocalDate.parse(monitoringEndDate, formatter);//형식 변환
 
-        Page<ShoppingMall> shoppingMalls;
+        List<ShoppingMall> shoppingMalls;
 
-        if(startDateTime!=null && endDateTime!=null){ shoppingMalls = shoppingMallRepository.findBymonitoringDateBetween(startDateTime, endDateTime, pageable); }//monitoringDate 검색
-        else if(startDateTime!=null){shoppingMalls = shoppingMallRepository.findBymonitoringDateAfter(startDateTime, pageable);}
-        else if(endDateTime!=null){shoppingMalls = shoppingMallRepository.findBymonitoringDateBefore(endDateTime, pageable);}
-        else{ shoppingMalls = shoppingMallRepository.findAll(pageable); }//검색 지정이 없는 경우, 모두 출력
+        if(startDateTime!=null && endDateTime!=null){ shoppingMalls = shoppingMallRepository.findBymonitoringDateBetween(startDateTime, endDateTime, sort); }//monitoringDate 검색
+        else if(startDateTime!=null){shoppingMalls = shoppingMallRepository.findBymonitoringDateAfter(startDateTime, sort);}
+        else if(endDateTime!=null){shoppingMalls = shoppingMallRepository.findBymonitoringDateBefore(endDateTime, sort);}
+        else{ shoppingMalls = shoppingMallRepository.findAll(sort); }//검색 지정이 없는 경우, 모두 출력
 
-        return shoppingMalls.map(shoppingMall -> new ShoppingMallResponseDto(
+        return shoppingMalls.stream()
+                .map(shoppingMall -> new ShoppingMallResponseDto(
                         shoppingMall.getCompanyName(),
                         shoppingMall.getStoreName(),
                         shoppingMall.getDomainName(),
@@ -121,7 +130,7 @@ public class FilterService {
                         shoppingMall.getEstimateDeliveryDateDisplay(),
                         shoppingMall.getWithdrawalShippingCostResponsibility(),
                         shoppingMall.getMonitoringDate()
-                )
-        );
+                ))
+                .collect(Collectors.toList());
     }
 }

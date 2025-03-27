@@ -1,13 +1,13 @@
 package com.example.plusproject.filter.controller;
 
+import com.example.plusproject.common.exception.ApplicationException;
+import com.example.plusproject.common.exception.ErrorCode;
 import com.example.plusproject.filter.dto.ShoppingMallResponseDto;
 import com.example.plusproject.filter.service.FilterService;
 import com.example.plusproject.shoppingmall.enums.StoreStatus;
 import com.example.plusproject.shoppingmall.enums.TotalRating;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,34 +22,30 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class FilterController {
-    private final FilterService FilterService;
+    private final FilterService filterService;
 
     /*다건 조회 todo: TotalRating 검색*/
-    @GetMapping("/v1/shopping-malls/filters/overall-rating")
-    public ResponseEntity<List<ShoppingMallResponseDto>> findTotalRatingFilter(
-            @PageableDefault(page=0, size = 10, sort="companyName", direction = Sort.Direction.ASC) Pageable pageable,//10개씩     companyName기준 ASC정렬
-            @RequestParam(required = false) TotalRating totalRating
+    @GetMapping("/v1/shopping-malls/filters")
+    public ResponseEntity<List<ShoppingMallResponseDto>> findFilter(
+            @RequestParam(required = false) TotalRating totalRating, //TotalRating
+            @RequestParam(required = false) StoreStatus storeStatus, //StoreStatus
+            @RequestParam(required = false) String monitoringStartDate, //MonitoringDate
+            @RequestParam(required = false) String monitoringEndDate //MonitoringDate
     ){
-        return ResponseEntity.ok(FilterService.findTotalRatingFilter(pageable, totalRating).getContent());
-    }
+        Sort sort1 = Sort.by(Sort.Direction.fromString("ASC"), "companyName");//ASC 정렬       //정렬 기준: companyName
+        Sort sort2 = Sort.by(Sort.Direction.fromString("ASC"), "monitoringDate");//ASC 정렬       //정렬 기준: monitoringDate
 
-    /*다건 조회 todo: StoreStatus 검색*/
-    @GetMapping("/v1/shopping-malls/filters/business-status")
-    public ResponseEntity<List<ShoppingMallResponseDto>> findTotalRatingFilter(
-            @PageableDefault(page=0, size = 10, sort="companyName", direction = Sort.Direction.ASC) Pageable pageable,//10개씩     companyName기준 ASC정렬
-            @RequestParam(required = false) StoreStatus storeStatus
-    ){
-        return ResponseEntity.ok(FilterService.findStoreStatusFilter(pageable, storeStatus).getContent());
-    }
-
-    /*다건 조회 todo: MonitoringDate 검색(기간)*/
-    @GetMapping("/v1/shopping-malls/filters/monitoring-date")
-    public ResponseEntity<List<ShoppingMallResponseDto>> findMonitoringDateFilter(
-            @PageableDefault(page=0, size = 10, sort="companyName", direction = Sort.Direction.ASC) Pageable pageable,//10개씩     companyName기준 ASC정렬
-            //@PageableDefault(page=0, size = 10, sort="monitoringDate", direction = Sort.Direction.ASC) Pageable pageable,//10개씩     monitoringDate기준 ASC정렬
-            @RequestParam(required = false) String monitoringStartDate,
-            @RequestParam(required = false) String monitoringEndDate
-    ){
-        return ResponseEntity.ok(FilterService.findMonitoringDateFilter(pageable, monitoringStartDate, monitoringEndDate).getContent());
+        if(totalRating!=null && storeStatus==null && monitoringStartDate==null && monitoringEndDate==null){//TotalRating
+            return ResponseEntity.ok(filterService.findByTotalRating(sort1, totalRating));
+        }
+        else if(totalRating==null && storeStatus!=null && monitoringStartDate==null && monitoringEndDate==null){//StoreStatus
+            return ResponseEntity.ok(filterService.findByStoreStatus(sort1, storeStatus));
+        }
+        else if(totalRating==null && storeStatus==null && (monitoringStartDate!=null || monitoringEndDate!=null)){ //MonitoringDate
+            return ResponseEntity.ok(filterService.findByMonitoringDate(sort2, monitoringStartDate, monitoringEndDate));
+        }
+        else{
+            throw new ApplicationException(ErrorCode.FILTER_REQUEST_NULL);
+        }
     }
 }
