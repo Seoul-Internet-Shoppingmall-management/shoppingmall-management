@@ -53,11 +53,11 @@ public interface ShoppingMallRepository extends JpaRepository<ShoppingMall, Long
     );
 
     /*TotalRating 검색(정렬 포함)*/
-    Page<ShoppingMall> findBytotalRating(TotalRating totalRating, Pageable pageable);
+    Page<ShoppingMall> findByTotalRating(TotalRating totalRating, Pageable pageable);
     /*StoreStatus 검색(정렬 포함)*/
-    Page<ShoppingMall> findBystoreStatus(StoreStatus storeStatus, Pageable pageable);
+    Page<ShoppingMall> findByStoreStatus(StoreStatus storeStatus, Pageable pageable);
     /*MonitoringDate 검색(정렬 포함)*/
-    Page<ShoppingMall> findBymonitoringDateBetween(LocalDate startDateTime, LocalDate endDateTime, Pageable pageable);
-    Page<ShoppingMall> findBymonitoringDateAfter(LocalDate startDateTime, Pageable pageable);
-    Page<ShoppingMall> findBymonitoringDateBefore(LocalDate endDateTime, Pageable pageable);
+    Page<ShoppingMall> findByMonitoringDateBetween(LocalDate startDateTime, LocalDate endDateTime, Pageable pageable);
+    Page<ShoppingMall> findByMonitoringDateAfter(LocalDate startDateTime, Pageable pageable);
+    Page<ShoppingMall> findByMonitoringDateBefore(LocalDate endDateTime, Pageable pageable);
 }
