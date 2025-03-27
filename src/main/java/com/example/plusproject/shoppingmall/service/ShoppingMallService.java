@@ -12,12 +12,16 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -71,7 +75,6 @@ public class ShoppingMallService {
                 );
     }
 
-<<<<<<< HEAD
     /*---------------------------------------------- Open API ----------------------------------------------------------*/
 
     // 서울 열린 데이터 광장 인증키 (환경 변수로 인증키 넣어야 함)
@@ -214,38 +217,6 @@ public class ShoppingMallService {
         }
     }
 
-//    @Transactional
-//    public void saveCsvFileDeveloped(String filePath) throws IOException {
-//
-//        try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
-//            String[] header = reader.readNext(); // 헤더
-//            List<ShoppingMall> batchList = new ArrayList<>();
-//            String[] line;
-//
-//            while ((line = reader.readNext()) != null) {
-//                ShoppingMall shoppingMall = mapToEntity(line);
-//            }
-//
-//        } catch (CsvValidationException e) {
-//            throw new RuntimeException(e);
-//        }
-//    }
-//
-//    private ShoppingMall mapToEntity(String[] line) {
-//        return ShoppingMall.builder()
-//                .companyName(line[0])
-//                .storeName(line[1])
-//                .domainName(line[2])
-//                .phoneNumber(line[3])
-//                .operatorEmail(line[4])
-//                .businessType(line[5])
-//                .registrationDate(LocalDate.parse(line[7]))
-//                .companyAddress(line[8])
-//                .storeStatus(StoreStatus.valueOf(line[9]))
-//                .totalRating(TotalRating.valueOf(line[10]))
-//                .
-//    }
-=======
     @Transactional
     public void saveCsvFileDeveloped(String filePath) throws IOException {
 
@@ -311,5 +282,4 @@ public class ShoppingMallService {
                 .monitoringDate(LocalDate.now())
                 .build();
     }
->>>>>>> f6e6c7bb6444161625773da59f00f6bb4383ecee
 }

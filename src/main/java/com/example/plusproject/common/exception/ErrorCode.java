@@ -25,13 +25,9 @@ public enum ErrorCode {
     FILTER_REQUEST_NULL("필터할 값을 인식할 수 없습니다.", HttpStatus.BAD_REQUEST),
       
     // SHOPPING_MALLS CLASS ERROR
-<<<<<<< HEAD
-    EMPTY_FILE("파일이 비어 있습니다.", HttpStatus.BAD_REQUEST);
-=======
     EMPTY_FILE("파일이 비어 있습니다.", HttpStatus.BAD_REQUEST),
     NOT_INT_VALUE_OF_TOTAL_RATING("전체 평가는 숫자로 입력해 주세요.", HttpStatus.BAD_REQUEST)
     ;
->>>>>>> f6e6c7bb6444161625773da59f00f6bb4383ecee
 
     private final String message;
     private final HttpStatus httpStatus;
