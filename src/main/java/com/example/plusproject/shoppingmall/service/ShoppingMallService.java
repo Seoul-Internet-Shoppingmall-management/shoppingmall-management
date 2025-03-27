@@ -11,12 +11,16 @@ import com.example.plusproject.shoppingmall.repository.ShoppingMallRepository;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +32,8 @@ public class ShoppingMallService {
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper;
     private final ShoppingMallRepository shoppingMallRepository;
+
+    private static final int BATCH_SIZE = 100;
 
     @Transactional(readOnly = true)
     public ShoppingMallResponseDto get(Long id) {
@@ -199,9 +205,7 @@ public class ShoppingMallService {
                 }
 
                 // 중복된 쇼핑몰 데이터를 방지하기 위해 storeName으로 DB 중복 여부를 확인 후 추가
-                if (!shoppingMallRepository.existsByStoreName(shoppingMall.getStoreName())) {
-                    shoppingMalls.add(shoppingMall);
-                }
+                shoppingMalls.add(shoppingMall);
             }
 
             return shoppingMalls;
@@ -210,4 +214,36 @@ public class ShoppingMallService {
             throw new RuntimeException("JSON 파싱 실패", e);
         }
     }
+
+//    @Transactional
+//    public void saveCsvFileDeveloped(String filePath) throws IOException {
+//
+//        try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
+//            String[] header = reader.readNext(); // 헤더
+//            List<ShoppingMall> batchList = new ArrayList<>();
+//            String[] line;
+//
+//            while ((line = reader.readNext()) != null) {
+//                ShoppingMall shoppingMall = mapToEntity(line);
+//            }
+//
+//        } catch (CsvValidationException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+//
+//    private ShoppingMall mapToEntity(String[] line) {
+//        return ShoppingMall.builder()
+//                .companyName(line[0])
+//                .storeName(line[1])
+//                .domainName(line[2])
+//                .phoneNumber(line[3])
+//                .operatorEmail(line[4])
+//                .businessType(line[5])
+//                .registrationDate(LocalDate.parse(line[7]))
+//                .companyAddress(line[8])
+//                .storeStatus(StoreStatus.valueOf(line[9]))
+//                .totalRating(TotalRating.valueOf(line[10]))
+//                .
+//    }
 }

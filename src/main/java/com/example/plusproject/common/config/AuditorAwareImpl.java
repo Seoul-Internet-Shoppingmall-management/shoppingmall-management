@@ -19,12 +19,13 @@ public class AuditorAwareImpl implements AuditorAware<User> {
 
     private final UserService userService;
 
+    // 인증된 사용자로부터 id 값을 추출하여 CreatedById 또는 ModifiedById 에 값을 넣음
     @Override
     public Optional<User> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal() == null) {
-            throw new ApplicationException(ErrorCode.NOT_FOUND_USER);
+            return Optional.empty();
         }
 
         AuthUser authUser = (AuthUser) authentication.getPrincipal();

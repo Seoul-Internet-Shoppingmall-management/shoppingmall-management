@@ -32,10 +32,10 @@ public class ShoppingMall extends BaseEntity {
     private String companyName;
 
     // 쇼핑몰명
-    @Column(unique = true)
     private String storeName;
 
     // 도메인명
+    @Column(length = 1000)
     private String domainName;
 
     // 전화번호
@@ -91,6 +91,44 @@ public class ShoppingMall extends BaseEntity {
     @LastModifiedBy
     private User modifiedBy;
 
+    @Builder
+    public ShoppingMall(
+            String companyName,
+            String storeName,
+            String domainName,
+            String phoneNumber,
+            String operatorEmail,
+            String businessType,
+            LocalDate registrationDate,
+            String companyAddress,
+            StoreStatus storeStatus,
+            TotalRating totalRating,
+            String mainProducts,
+            String subscriptionWithdrawalAvailable,
+            String homepageRequiredItems,
+            String termsOfServiceCompliance,
+            String estimateDeliveryDateDisplay,
+            String withdrawalShippingCostResponsibility,
+            LocalDate monitoringDate
+    ) {
+        this.companyName = companyName;
+        this.storeName = storeName;
+        this.domainName = domainName;
+        this.phoneNumber = phoneNumber;
+        this.operatorEmail = operatorEmail;
+        this.businessType = businessType;
+        this.registrationDate = registrationDate;
+        this.companyAddress = companyAddress;
+        this.storeStatus = storeStatus;
+        this.totalRating = totalRating;
+        this.mainProducts = mainProducts;
+        this.subscriptionWithdrawalAvailable = subscriptionWithdrawalAvailable;
+        this.homepageRequiredItems = homepageRequiredItems;
+        this.termsOfServiceCompliance = termsOfServiceCompliance;
+        this.estimateDeliveryDateDisplay = estimateDeliveryDateDisplay;
+        this.withdrawalShippingCostResponsibility = withdrawalShippingCostResponsibility;
+        this.monitoringDate = monitoringDate;
+    }
 
     public void update(
             String companyName,
