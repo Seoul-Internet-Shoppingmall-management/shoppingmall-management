@@ -8,17 +8,25 @@ import com.example.plusproject.shoppingmall.entity.ShoppingMall;
 import com.example.plusproject.shoppingmall.enums.StoreStatus;
 import com.example.plusproject.shoppingmall.enums.TotalRating;
 import com.example.plusproject.shoppingmall.repository.ShoppingMallRepository;
+import com.opencsv.CSVReader;
+import com.opencsv.exceptions.CsvValidationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 public class ShoppingMallService {
 
     private final ShoppingMallRepository shoppingMallRepository;
+
+    private static final int BATCH_SIZE = 100;
 
     @Transactional(readOnly = true)
     public ShoppingMallResponseDto get(Long id) {
@@ -57,4 +65,36 @@ public class ShoppingMallService {
                 LocalDate.now()
                 );
     }
+
+//    @Transactional
+//    public void saveCsvFileDeveloped(String filePath) throws IOException {
+//
+//        try (CSVReader reader = new CSVReader(new FileReader(filePath))) {
+//            String[] header = reader.readNext(); // 헤더
+//            List<ShoppingMall> batchList = new ArrayList<>();
+//            String[] line;
+//
+//            while ((line = reader.readNext()) != null) {
+//                ShoppingMall shoppingMall = mapToEntity(line);
+//            }
+//
+//        } catch (CsvValidationException e) {
+//            throw new RuntimeException(e);
+//        }
+//    }
+//
+//    private ShoppingMall mapToEntity(String[] line) {
+//        return ShoppingMall.builder()
+//                .companyName(line[0])
+//                .storeName(line[1])
+//                .domainName(line[2])
+//                .phoneNumber(line[3])
+//                .operatorEmail(line[4])
+//                .businessType(line[5])
+//                .registrationDate(LocalDate.parse(line[7]))
+//                .companyAddress(line[8])
+//                .storeStatus(StoreStatus.valueOf(line[9]))
+//                .totalRating(TotalRating.valueOf(line[10]))
+//                .
+//    }
 }
