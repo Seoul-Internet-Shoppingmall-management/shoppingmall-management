@@ -19,7 +19,7 @@ public class QueryDSLService {
 
     private final ShoppingMallRepository shoppingMallRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public Page<QueryDSLResponseDto> findByShoppingMallsWithCursorId(
             TotalRating totalRating,
             StoreStatus storeStatus,
