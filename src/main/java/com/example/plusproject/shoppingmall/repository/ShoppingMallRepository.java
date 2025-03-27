@@ -6,13 +6,10 @@ import com.example.plusproject.shoppingmall.enums.TotalRating;
 import com.example.plusproject.queryDSL.repository.QueryDSLRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import com.example.plusproject.shoppingmall.enums.StoreStatus;
-import com.example.plusproject.shoppingmall.enums.TotalRating;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import java.time.LocalDate;
 
 public interface ShoppingMallRepository extends JpaRepository<ShoppingMall, Long>, QueryDSLRepository {
 
@@ -33,10 +30,7 @@ public interface ShoppingMallRepository extends JpaRepository<ShoppingMall, Long
             @Param("cursorId") Long cursorId,
             Pageable pageable
     );
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
-public interface ShoppingMallRepository extends JpaRepository<ShoppingMall, Long> {
     /*TotalRating 검색(정렬 포함)*/
     Page<ShoppingMall> findBytotalRating(TotalRating totalRating, Pageable pageable);
     /*StoreStatus 검색(정렬 포함)*/
