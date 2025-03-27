@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 //repository 메서드 이용
@@ -27,40 +26,12 @@ public class FilterService {
     public Page<ShoppingMallResponseDto> findTotalRatingFilter(Pageable pageable, TotalRating totalRating) {
         Page<ShoppingMall> shoppingMalls;
 
-        if(totalRating!=null){ shoppingMalls = shoppingMallRepository.findBytotalRating(totalRating, pageable); }//totalRating 검색
-        else{ shoppingMalls = shoppingMallRepository.findAll(pageable); }//검색 지정이 없는 경우, 모두 출력
-
-        return shoppingMalls.map(shoppingMall -> new ShoppingMallResponseDto(
-                shoppingMall.getCompanyName(),
-                shoppingMall.getStoreName(),
-                shoppingMall.getDomainName(),
-                shoppingMall.getPhoneNumber(),
-                shoppingMall.getOperatorEmail(),
-                shoppingMall.getBusinessType(),
-                shoppingMall.getRegistrationDate(),
-                shoppingMall.getCompanyAddress(),
-                shoppingMall.getStoreStatus(),
-                shoppingMall.getTotalRating(),
-                shoppingMall.getMainProducts(),
-                shoppingMall.getSubscriptionWithdrawalAvailable(),
-                shoppingMall.getHomepageRequiredItems(),
-                shoppingMall.getTermsOfServiceCompliance(),
-                shoppingMall.getEstimateDeliveryDateDisplay(),
-                shoppingMall.getWithdrawalShippingCostResponsibility(),
-                shoppingMall.getMonitoringDate()
-                )
-        );
-    }
-
-
-
-    /*다건 조회 todo: StoreStatus 검색*/
-    @Transactional(readOnly = true)
-    public Page<ShoppingMallResponseDto> findStoreStatusFilter(Pageable pageable, StoreStatus storeStatus) {
-        Page<ShoppingMall> shoppingMalls;
-
-        if(storeStatus!=null){ shoppingMalls = shoppingMallRepository.findBystoreStatus(storeStatus, pageable); }//storeStatus 검색
-        else{ shoppingMalls = shoppingMallRepository.findAll(pageable); }//검색 지정이 없는 경우, 모두 출력
+        if (totalRating != null) {
+            shoppingMalls = shoppingMallRepository.findByTotalRating(totalRating, pageable);
+        }//totalRating 검색
+        else {
+            shoppingMalls = shoppingMallRepository.findAll(pageable);
+        }//검색 지정이 없는 경우, 모두 출력
 
         return shoppingMalls.map(shoppingMall -> new ShoppingMallResponseDto(
                         shoppingMall.getCompanyName(),
@@ -79,11 +50,49 @@ public class FilterService {
                         shoppingMall.getTermsOfServiceCompliance(),
                         shoppingMall.getEstimateDeliveryDateDisplay(),
                         shoppingMall.getWithdrawalShippingCostResponsibility(),
-                        shoppingMall.getMonitoringDate()
+                        shoppingMall.getMonitoringDate(),
+                        shoppingMall.getCreatedAt(),
+                        shoppingMall.getModifiedAt()
                 )
         );
     }
 
+
+    /*다건 조회 todo: StoreStatus 검색*/
+    @Transactional(readOnly = true)
+    public Page<ShoppingMallResponseDto> findStoreStatusFilter(Pageable pageable, StoreStatus storeStatus) {
+        Page<ShoppingMall> shoppingMalls;
+
+        if (storeStatus != null) {
+            shoppingMalls = shoppingMallRepository.findByStoreStatus(storeStatus, pageable);
+        }//storeStatus 검색
+        else {
+            shoppingMalls = shoppingMallRepository.findAll(pageable);
+        }//검색 지정이 없는 경우, 모두 출력
+
+        return shoppingMalls.map(shoppingMall -> new ShoppingMallResponseDto(
+                        shoppingMall.getCompanyName(),
+                        shoppingMall.getStoreName(),
+                        shoppingMall.getDomainName(),
+                        shoppingMall.getPhoneNumber(),
+                        shoppingMall.getOperatorEmail(),
+                        shoppingMall.getBusinessType(),
+                        shoppingMall.getRegistrationDate(),
+                        shoppingMall.getCompanyAddress(),
+                        shoppingMall.getStoreStatus(),
+                        shoppingMall.getTotalRating(),
+                        shoppingMall.getMainProducts(),
+                        shoppingMall.getSubscriptionWithdrawalAvailable(),
+                        shoppingMall.getHomepageRequiredItems(),
+                        shoppingMall.getTermsOfServiceCompliance(),
+                        shoppingMall.getEstimateDeliveryDateDisplay(),
+                        shoppingMall.getWithdrawalShippingCostResponsibility(),
+                        shoppingMall.getMonitoringDate(),
+                        shoppingMall.getCreatedAt(),
+                        shoppingMall.getModifiedAt()
+                )
+        );
+    }
 
 
     /*다건 조회 todo: MonitoringDate 검색*/
@@ -93,15 +102,21 @@ public class FilterService {
 
         LocalDate startDateTime = null;
         LocalDate endDateTime = null;
-        if(monitoringStartDate!=null) startDateTime = LocalDate.parse(monitoringStartDate, formatter);//형식 변환
-        if(monitoringEndDate!=null) endDateTime = LocalDate.parse(monitoringEndDate, formatter);//형식 변환
+        if (monitoringStartDate != null) startDateTime = LocalDate.parse(monitoringStartDate, formatter);//형식 변환
+        if (monitoringEndDate != null) endDateTime = LocalDate.parse(monitoringEndDate, formatter);//형식 변환
 
         Page<ShoppingMall> shoppingMalls;
 
-        if(startDateTime!=null && endDateTime!=null){ shoppingMalls = shoppingMallRepository.findBymonitoringDateBetween(startDateTime, endDateTime, pageable); }//monitoringDate 검색
-        else if(startDateTime!=null){shoppingMalls = shoppingMallRepository.findBymonitoringDateAfter(startDateTime, pageable);}
-        else if(endDateTime!=null){shoppingMalls = shoppingMallRepository.findBymonitoringDateBefore(endDateTime, pageable);}
-        else{ shoppingMalls = shoppingMallRepository.findAll(pageable); }//검색 지정이 없는 경우, 모두 출력
+        if (startDateTime != null && endDateTime != null) {
+            shoppingMalls = shoppingMallRepository.findByMonitoringDateBetween(startDateTime, endDateTime, pageable);
+        }//monitoringDate 검색
+        else if (startDateTime != null) {
+            shoppingMalls = shoppingMallRepository.findByMonitoringDateAfter(startDateTime, pageable);
+        } else if (endDateTime != null) {
+            shoppingMalls = shoppingMallRepository.findByMonitoringDateBefore(endDateTime, pageable);
+        } else {
+            shoppingMalls = shoppingMallRepository.findAll(pageable);
+        }//검색 지정이 없는 경우, 모두 출력
 
         return shoppingMalls.map(shoppingMall -> new ShoppingMallResponseDto(
                         shoppingMall.getCompanyName(),
@@ -120,7 +135,9 @@ public class FilterService {
                         shoppingMall.getTermsOfServiceCompliance(),
                         shoppingMall.getEstimateDeliveryDateDisplay(),
                         shoppingMall.getWithdrawalShippingCostResponsibility(),
-                        shoppingMall.getMonitoringDate()
+                        shoppingMall.getMonitoringDate(),
+                        shoppingMall.getCreatedAt(),
+                        shoppingMall.getModifiedAt()
                 )
         );
     }
