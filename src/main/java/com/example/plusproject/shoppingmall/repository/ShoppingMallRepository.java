@@ -3,8 +3,8 @@ package com.example.plusproject.shoppingmall.repository;
 import com.example.plusproject.shoppingmall.entity.ShoppingMall;
 import com.example.plusproject.shoppingmall.enums.StoreStatus;
 import com.example.plusproject.shoppingmall.enums.TotalRating;
-import com.example.plusproject.queryDSL.repository.QueryDSLRepository;
 import org.springframework.data.domain.Pageable;
+import com.example.plusproject.queryDSL.repository.QueryDSLRepository;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -49,9 +49,9 @@ public interface ShoppingMallRepository extends JpaRepository<ShoppingMall, Long
     /*TotalRating 검색(정렬 포함)*/
     List<ShoppingMall> findByTotalRating(TotalRating totalRating, Sort sort);
     /*StoreStatus 검색(정렬 포함)*/
-    List<ShoppingMall> findBystoreStatus(StoreStatus storeStatus, Sort sort);
+    List<ShoppingMall> findByStoreStatus(StoreStatus storeStatus, Sort sort);
     /*MonitoringDate 검색(정렬 포함)*/
-    List<ShoppingMall> findBymonitoringDateBetween(LocalDate startDateTime, LocalDate endDateTime, Sort sort);
-    List<ShoppingMall> findBymonitoringDateAfter(LocalDate startDateTime, Sort sort);
-    List<ShoppingMall> findBymonitoringDateBefore(LocalDate endDateTime, Sort sort);
+    List<ShoppingMall> findByMonitoringDateBetween(LocalDate startDateTime, LocalDate endDateTime, Sort sort);
+    List<ShoppingMall> findByMonitoringDateAfter(LocalDate startDateTime, Sort sort);
+    List<ShoppingMall> findByMonitoringDateBefore(LocalDate endDateTime, Sort sort);
 }
