@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import java.time.LocalDate;
 
@@ -35,7 +34,7 @@ public class ShoppingMall extends BaseEntity {
     private String storeName;
 
     // 도메인명
-    @Column(length = 1000)
+    @Column(name="domainName",columnDefinition="TEXT")
     private String domainName;
 
     // 전화번호

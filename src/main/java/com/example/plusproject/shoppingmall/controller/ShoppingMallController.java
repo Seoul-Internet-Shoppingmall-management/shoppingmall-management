@@ -1,7 +1,5 @@
 package com.example.plusproject.shoppingmall.controller;
 
-import com.example.plusproject.common.exception.ApplicationException;
-import com.example.plusproject.common.exception.ErrorCode;
 import com.example.plusproject.filter.dto.ShoppingMallResponseDto;
 import com.example.plusproject.filter.dto.ShoppingMallUpdateRequestDto;
 import com.example.plusproject.shoppingmall.dto.ImportResponseDto;
@@ -11,10 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
