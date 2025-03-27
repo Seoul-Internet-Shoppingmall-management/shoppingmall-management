@@ -1,9 +1,9 @@
-package com.example.plusproject.shoppingmall.queryDSL.controller;
+package com.example.plusproject.queryDSL.controller;
 
 import com.example.plusproject.shoppingmall.entity.ShoppingMall;
 import com.example.plusproject.shoppingmall.enums.StoreStatus;
 import com.example.plusproject.shoppingmall.enums.TotalRating;
-import com.example.plusproject.shoppingmall.queryDSL.service.QueryDSLService;
+import com.example.plusproject.queryDSL.service.QueryDSLService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

@@ -1,4 +1,4 @@
-package com.example.plusproject.shoppingmall.queryDSL.repository;
+package com.example.plusproject.queryDSL.repository;
 
 import com.example.plusproject.shoppingmall.entity.QShoppingMall;
 import com.example.plusproject.shoppingmall.entity.ShoppingMall;

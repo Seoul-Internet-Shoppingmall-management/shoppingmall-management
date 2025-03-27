@@ -1,4 +1,4 @@
-package com.example.plusproject.shoppingmall.queryDSL.service;
+package com.example.plusproject.queryDSL.service;
 
 import com.example.plusproject.shoppingmall.entity.ShoppingMall;
 import com.example.plusproject.shoppingmall.enums.StoreStatus;

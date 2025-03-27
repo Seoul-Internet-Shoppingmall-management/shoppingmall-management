@@ -1,5 +1,6 @@
 package com.example.plusproject.shoppingmall.entity;
 
+import com.example.plusproject.common.entity.BaseEntity;
 import com.example.plusproject.shoppingmall.enums.StoreStatus;
 import com.example.plusproject.shoppingmall.enums.TotalRating;
 import jakarta.persistence.*;
@@ -11,8 +12,8 @@ import java.time.LocalDate;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "seoul-of-shopping-malls")
-public class ShoppingMall {
+@Table(name = "seoul_of_shopping_malls")
+public class ShoppingMall extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
