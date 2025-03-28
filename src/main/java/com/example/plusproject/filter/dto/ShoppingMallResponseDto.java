@@ -32,28 +32,4 @@ public class ShoppingMallResponseDto {
     private final LocalDate monitoringDate;
     private final LocalDateTime createdAt;
     private final LocalDateTime modifiedAt;
-
-    public static ShoppingMallResponseDto of(ShoppingMall shoppingMall) {
-        return new ShoppingMallResponseDto(
-                shoppingMall.getCompanyName(),
-                shoppingMall.getStoreName(),
-                shoppingMall.getDomainName(),
-                shoppingMall.getPhoneNumber(),
-                shoppingMall.getOperatorEmail(),
-                shoppingMall.getBusinessType(),
-                shoppingMall.getRegistrationDate(),
-                shoppingMall.getCompanyAddress(),
-                shoppingMall.getStoreStatus(),
-                shoppingMall.getTotalRating(),
-                shoppingMall.getMainProducts(),
-                shoppingMall.getSubscriptionWithdrawalAvailable(),
-                shoppingMall.getHomepageRequiredItems(),
-                shoppingMall.getTermsOfServiceCompliance(),
-                shoppingMall.getEstimateDeliveryDateDisplay(),
-                shoppingMall.getWithdrawalShippingCostResponsibility(),
-                shoppingMall.getMonitoringDate(),
-                shoppingMall.getCreatedAt(),
-                shoppingMall.getModifiedAt()
-        );
-    }
 }

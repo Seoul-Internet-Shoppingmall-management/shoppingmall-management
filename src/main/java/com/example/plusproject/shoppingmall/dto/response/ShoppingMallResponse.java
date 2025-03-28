@@ -1,5 +1,7 @@
 package com.example.plusproject.shoppingmall.dto.response;
 
+import com.example.plusproject.filter.dto.ShoppingMallResponseDto;
+import com.example.plusproject.shoppingmall.entity.ShoppingMall;
 import com.example.plusproject.shoppingmall.enums.StoreStatus;
 import com.example.plusproject.shoppingmall.enums.TotalRating;
 import com.example.plusproject.user.entity.User;
@@ -7,6 +9,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @RequiredArgsConstructor
@@ -16,6 +19,7 @@ public class ShoppingMallResponse {
     private final String companyName;
     private final String storeName;
     private final String domainName;
+    private final String phoneNumber;
     private final String operatorEmail;
     private final String businessType;
     private final LocalDate registrationDate;
@@ -29,6 +33,35 @@ public class ShoppingMallResponse {
     private final String estimateDeliveryDateDisplay;
     private final String withdrawalShippingCostResponsibility;
     private final LocalDate monitoringDate;
+    private final LocalDateTime createdAt;
+    private final LocalDateTime modifiedAt;
     private final Long createdById;
     private final Long modifiedById;
+
+    public static ShoppingMallResponse of(ShoppingMall shoppingMall) {
+        return new ShoppingMallResponse(
+                shoppingMall.getId(),
+                shoppingMall.getCompanyName(),
+                shoppingMall.getStoreName(),
+                shoppingMall.getDomainName(),
+                shoppingMall.getPhoneNumber(),
+                shoppingMall.getOperatorEmail(),
+                shoppingMall.getBusinessType(),
+                shoppingMall.getRegistrationDate(),
+                shoppingMall.getCompanyAddress(),
+                shoppingMall.getStoreStatus(),
+                shoppingMall.getTotalRating(),
+                shoppingMall.getMainProducts(),
+                shoppingMall.getSubscriptionWithdrawalAvailable(),
+                shoppingMall.getHomepageRequiredItems(),
+                shoppingMall.getTermsOfServiceCompliance(),
+                shoppingMall.getEstimateDeliveryDateDisplay(),
+                shoppingMall.getWithdrawalShippingCostResponsibility(),
+                shoppingMall.getMonitoringDate(),
+                shoppingMall.getCreatedAt(),
+                shoppingMall.getModifiedAt(),
+                shoppingMall.getCreatedBy().getId(),
+                shoppingMall.getModifiedBy().getId()
+        );
+    }
 }
