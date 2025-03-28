@@ -16,13 +16,12 @@ import java.time.LocalDate;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "shopping_malls_of_seoul")
+@Table(name = "shopping_malls_of_seoul",
+indexes = {@Index(name = "idx_shopping_mall_total_rating_store_status_id", columnList = "total_rating, store_status, id")})
 public class ShoppingMall extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    // 우선 17개 필드값만 입력해 두었습니다. validation 필요한 것 체크할 예정
 
     // 상호
     @Column(nullable = false)
@@ -127,41 +126,15 @@ public class ShoppingMall extends BaseEntity {
         this.monitoringDate = monitoringDate;
     }
 
-    public void update(
-            String companyName,
-            String storeStatus,
-            String domainName,
-            String phoneNumber,
-            String operatorEmail,
-            String businessType,
-            LocalDate registrationDate,
-            String companyAddress,
-            StoreStatus storeStatus1,
-            TotalRating totalRating,
-            String mainProducts,
-            String subscriptionWithdrawalAvailable,
-            String homepageRequiredItems,
-            String termsOfServiceCompliance,
-            String estimateDeliveryDateDisplay,
-            String withdrawalShippingCostResponsibility,
-            LocalDate now)
-    {
-        this.companyName = companyName;
-        this.storeName = storeStatus;
-        this.domainName = domainName;
-        this.phoneNumber = phoneNumber;
-        this.operatorEmail = operatorEmail;
-        this.businessType = businessType;
-        this.registrationDate = registrationDate;
-        this.companyAddress = companyAddress;
-        this.storeStatus = storeStatus1;
+    public void changeStoreStatus(StoreStatus storeStatus) {
+        this.storeStatus = storeStatus;
+    }
+
+    public void changeTotalRating(TotalRating totalRating) {
         this.totalRating = totalRating;
-        this.mainProducts = mainProducts;
-        this.subscriptionWithdrawalAvailable = subscriptionWithdrawalAvailable;
-        this.homepageRequiredItems = homepageRequiredItems;
-        this.termsOfServiceCompliance = termsOfServiceCompliance;
-        this.estimateDeliveryDateDisplay = estimateDeliveryDateDisplay;
-        this.withdrawalShippingCostResponsibility = withdrawalShippingCostResponsibility;
+    }
+
+    public void changeMonitoringDate(LocalDate now) {
         this.monitoringDate = now;
     }
 }
