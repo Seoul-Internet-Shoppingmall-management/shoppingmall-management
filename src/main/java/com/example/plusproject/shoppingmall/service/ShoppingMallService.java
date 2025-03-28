@@ -49,7 +49,6 @@ public class ShoppingMallService {
         PageRequest pageable = PageRequest.of(page, size);
 
         Page<ShoppingMall> result;
-        System.out.println(131313);
         if (storeStatus != null && totalRating != null) {
             result = shoppingMallRepository.findByStoreStatusAndTotalRating(StoreStatus.of(storeStatus), TotalRating.of(totalRating), pageable);
         } else if (storeStatus != null) {
@@ -58,7 +57,6 @@ public class ShoppingMallService {
             result = shoppingMallRepository.findByTotalRating(TotalRating.of(totalRating), pageable);
         } else {
             result = shoppingMallRepository.findAll(pageable);
-            System.out.println(141414);
         }
         Page<ShoppingMallResponse> responsePage = result.map(mall -> new ShoppingMallResponse(
                 mall.getId(),
@@ -78,8 +76,8 @@ public class ShoppingMallService {
                 mall.getEstimateDeliveryDateDisplay(),
                 mall.getWithdrawalShippingCostResponsibility(),
                 mall.getMonitoringDate(),
-                mall.getCreatedBy(),
-                mall.getModifiedBy()
+                mall.getCreatedBy().getId(),
+                mall.getModifiedBy().getId()
         ));
         return responsePage;
         }

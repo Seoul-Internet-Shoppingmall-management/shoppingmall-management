@@ -64,12 +64,11 @@ public class ShoppingMallController {
     // 쇼핑몰을 페이징해서 조회(필터 적용 가능)
     @GetMapping("/v1/shopping-malls")
     public ResponseEntity<Page<ShoppingMallResponse>> getShoppingMalls(
-            @RequestParam(required = false) String storeStatus, //
-            @RequestParam(required = false) Integer totalRating, //
+            @RequestParam(required = false) String storeStatus,
+            @RequestParam(required = false) Integer totalRating,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
             ) {
-        System.out.println(121212);
         return ResponseEntity.ok(shoppingMallService.getShoppingMalls(storeStatus, totalRating, page, size));
     }
 
