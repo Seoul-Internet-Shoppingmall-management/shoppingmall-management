@@ -119,6 +119,7 @@ public class ShoppingMallService {
     @Value("${openapi.seoul.serviceKey}")
     private String serviceKey;
 
+    @Transactional
     public int importAllOpenApiData() {
 
         // 총 데이터 건수 확인용 URL 설정
@@ -150,7 +151,7 @@ public class ShoppingMallService {
             throw new RuntimeException("JSON 파싱 실패", e);
         }
 
-        int pageSize = 100;     // 한번에 가져올 데이터 크기
+        int pageSize = 1000;     // 한번에 가져올 데이터 크기
         int totalInserted = 0;  // DB에 삽입된 총 행 수
 
         // 총 데이터 갯수만큼 반복해서 데이터 삽입
@@ -162,7 +163,6 @@ public class ShoppingMallService {
         return totalInserted;   // 총 삽입된 행 수
     }
 
-    @Transactional
     public int importOpenApiData(int start, int end) {
 
         // URL 생성 start ~ end 범위 요청
@@ -212,39 +212,25 @@ public class ShoppingMallService {
 
             for (JsonNode row : rows) {
                 // Store 객체 생성
-                ShoppingMall shoppingMall = new ShoppingMall();
+                ShoppingMall shoppingMall = new ShoppingMall(
+                        row.path("COMPANY").asText(null),
+                        row.path("SHOP_NAME").asText(null),
+                        row.path("DOMAIN_NAME").asText(null),
+                        row.path("TEL").asText(null),
+                        row.path("EMAIL").asText(null),
+                        row.path("YPFORM").asText(null),
+                        row.path("FIRST_HEO_DATE").asText(null) != null ? LocalDate.parse(row.path("FIRST_HEO_DATE").asText(null)) : null,
+                        row.path("COM_ADDR").asText(null),
+                        row.path("STAT_NM").asText(null) != null ? StoreStatus.of(row.path("STAT_NM").asText(null)) : StoreStatus.NONE,
+                        TotalRating.of(row.path("TOT_RATINGPOINT").asInt(0)),
+                        row.path("SERVICE").asText(null),
+                        row.path("CHUNG").asText(null),
+                        row.path("CHOGI").asText(null),
+                        row.path("PYOJUN").asText(null),
+                        row.path("BAESONG_YEJEONG").asText(null),
+                        row.path("BAESONG").asText(null),
+                        row.path("REG_DATE").asText(null) != null ? LocalDate.parse(row.path("REG_DATE").asText(null)) : null);
 
-                // OpenApi에서 받은 값을 문자열로 추출해서 받음, 값이 없으면 null 반환
-                shoppingMall.setCompanyName(row.path("COMPANY").asText(null));
-                shoppingMall.setStoreName(row.path("SHOP_NAME").asText(null));
-                shoppingMall.setDomainName(row.path("DOMAIN_NAME").asText(null));
-                shoppingMall.setPhoneNumber(row.path("TEL").asText(null));
-                shoppingMall.setOperatorEmail(row.path("EMAIL").asText(null));
-                shoppingMall.setBusinessType(row.path("YPFORM").asText(null));
-                String regDateStr = row.path("FIRST_HEO_DATE").asText(null);
-                // regDateStr이 null이 아니면 yyyy-MM-dd 형식으로 파싱해 등록 날짜로 설정
-                if (regDateStr != null) {
-                    shoppingMall.setRegistrationDate(LocalDate.parse(regDateStr));
-                }
-                shoppingMall.setCompanyAddress(row.path("COM_ADDR").asText(null));
-                String storeStatusStr = row.path("STAT_NM").asText(null);
-                if (storeStatusStr != null) {
-                    shoppingMall.setStoreStatus(StoreStatus.of(storeStatusStr));
-                }
-                int totalRatingValue = row.path("TOT_RATINGPOINT").asInt(0);
-                shoppingMall.setTotalRating(TotalRating.of(totalRatingValue));
-                shoppingMall.setMainProducts(row.path("SERVICE").asText(null));
-                shoppingMall.setSubscriptionWithdrawalAvailable(row.path("CHUNG").asText(null));
-                shoppingMall.setHomepageRequiredItems(row.path("CHOGI").asText(null));
-                shoppingMall.setTermsOfServiceCompliance(row.path("PYOJUN").asText(null));
-                shoppingMall.setEstimateDeliveryDateDisplay(row.path("BAESONG").asText(null));
-                String monitorDateStr = row.path("REG_DATE").asText(null);
-                // monitorDateStr이 null이 아니면 yyyy-MM-dd 형식으로 파싱해 등록 날짜로 설정
-                if (monitorDateStr != null) {
-                    shoppingMall.setMonitoringDate(LocalDate.parse(monitorDateStr));
-                }
-
-                // 중복된 쇼핑몰 데이터를 방지하기 위해 storeName으로 DB 중복 여부를 확인 후 추가
                 shoppingMalls.add(shoppingMall);
             }
 
