@@ -16,7 +16,7 @@ public class ShoppingMallUpdateRequestDto {
     private LocalDate registrationDate;
     private String companyAddress;
     private String storeStatus;
-    private int totalRating;
+    private Integer totalRating;
     private String mainProducts;
     private String subscriptionWithdrawalAvailable;
     private String homepageRequiredItems;

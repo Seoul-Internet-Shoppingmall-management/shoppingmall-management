@@ -8,7 +8,6 @@ import com.example.plusproject.shoppingmall.enums.TotalRating;
 import com.example.plusproject.shoppingmall.repository.ShoppingMallRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -30,10 +29,9 @@ public class FilterServiceTest {
     private FilterService filterService;
 
     @Test
-    void 전체면_해당_평점에_맞는_쇼핑몰_목록을_반환한다() {
+    void 전체평점에_맞는_쇼핑몰_목록을_반환한다() {
         //given
         TotalRating totalRating = TotalRating.TWO;
-        StoreStatus storeStatus = StoreStatus.OPEN;
         Sort sort = Sort.by(Sort.Direction.ASC, "totalRating");
 
         List<ShoppingMall> mockShoppingMalls = List.of(
@@ -46,7 +44,7 @@ public class FilterServiceTest {
                         "영업형태1",
                         LocalDate.of(2020, 1, 1),
                         "서울시 강남구",
-                        storeStatus,
+                        StoreStatus.OPEN,
                         totalRating,
                         "주요취급품목1",
                         "청양철회가능여부1",
@@ -66,6 +64,6 @@ public class FilterServiceTest {
         assertNotNull(result);
         assertEquals(1, result.size());
         assertEquals("가게1", result.get(0).getStoreName());
-        assertEquals(4.5, result.get(0).getTotalRating().getRating());
+        assertEquals(4, result.get(0).getTotalRating().getValue());
     }
 }
