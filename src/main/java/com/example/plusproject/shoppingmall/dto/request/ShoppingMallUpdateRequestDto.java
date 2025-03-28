@@ -1,4 +1,4 @@
-package com.example.plusproject.filter.dto;
+package com.example.plusproject.shoppingmall.dto.request;
 
 import lombok.Getter;
 
