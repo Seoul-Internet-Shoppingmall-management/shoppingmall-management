@@ -19,6 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @WebMvcTest(ShoppingMallController.class)
@@ -27,16 +28,17 @@ class ShoppingMallControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    @SuppressWarnings("removal")
     @MockBean
     private ShoppingMallService shoppingMallService;
 
     private ShoppingMallResponse createDummyResponse() {
         return new ShoppingMallResponse(
-                1L, "테스트기업", "테스트스토어", "test.com", "test@email.com",
+                1L, "테스트기업", "테스트스토어", "test.com", "010-1234-5678","test@email.com",
                 "소매업", LocalDate.now(), "서울시 어딘가",
                 StoreStatus.OPEN, TotalRating.THREE, "의류",
                 "가능", "표기됨", "준수함", "2~3일", "구매자",
-                LocalDate.now(), 100L, 101L
+                LocalDate.now(), LocalDateTime.now(), LocalDateTime.now(), 100L, 101L
         );
     }
 
@@ -64,7 +66,7 @@ class ShoppingMallControllerTest {
         Mockito.when(shoppingMallService.getShoppingMalls("OPEN", 2, 0, 10)).thenReturn(page);
 
         mockMvc.perform(get("/v1/shopping-malls")
-                        .param("storeStatus", "ACTIVE")
+                        .param("storeStatus", "OPEN")
                         .param("totalRating", "2")
                         .param("page", "0")
                         .param("size", "10"))

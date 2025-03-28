@@ -52,14 +52,25 @@ class ShoppingMallServiceTest {
                 .totalRating(TotalRating.THREE)
                 .mainProducts("전자제품")
                 .subscriptionWithdrawalAvailable("가능")
-                .homepageRequiredItems("표기")
-                .termsOfServiceCompliance("준수")
-                .estimateDeliveryDateDisplay("3~5일")
-                .withdrawalShippingCostResponsibility("구매자")
+                .homepageRequiredItems("상호 대표자 소재지 전화번호 사업자등록번호")
+                .termsOfServiceCompliance("표준약관 사용")
+                .estimateDeliveryDateDisplay("있다")
+                .withdrawalShippingCostResponsibility("소비자(왕복택배비 부담)")
                 .monitoringDate(LocalDate.now())
-                .createdBy(createdBy)
-                .modifiedBy(modifiedBy)
                 .build();
+
+        // createdBy 필드에 리플렉션으로 값 주입
+        try {
+            Field createdByField = ShoppingMall.class.getDeclaredField("createdBy");
+            createdByField.setAccessible(true);
+            createdByField.set(mall, createUser(100L));
+
+            Field modifiedByField = ShoppingMall.class.getDeclaredField("modifiedBy");
+            modifiedByField.setAccessible(true);
+            modifiedByField.set(mall, createUser(101L));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
         // 리플렉션으로 id 강제 설정
         try {
@@ -77,7 +88,7 @@ class ShoppingMallServiceTest {
         User user = User.builder()
                 .name("테스터")
                 .email("test@example.com")
-                .password("pw")
+                .password("1234567Ab!")
                 .userRole(UserRole.ROLE_ADMIN)
                 .build();
 
