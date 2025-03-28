@@ -17,7 +17,7 @@ import java.time.LocalDate;
 @Entity
 @NoArgsConstructor
 @Table(name = "shopping_malls_of_seoul",
-indexes = {@Index(name = "idx_shopping_mall_total_rating_store_status_id", columnList = "total_rating, store_status, id")})
+indexes = {@Index(name = "idx_shopping_mall_total_rating_store_status_monitoring_date_id", columnList = "total_rating, store_status, monitoring_date, id")})
 public class ShoppingMall extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
