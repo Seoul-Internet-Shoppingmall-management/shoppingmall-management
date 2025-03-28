@@ -8,14 +8,12 @@ import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.LastModifiedBy;
 
 import java.time.LocalDate;
 
 @Getter
-@Setter
 @Entity
 @NoArgsConstructor
 @Table(name = "shopping_malls_of_seoul",//modified_by_id인덱싱 추가. 인덱스 이름 변경해야 하는가?
