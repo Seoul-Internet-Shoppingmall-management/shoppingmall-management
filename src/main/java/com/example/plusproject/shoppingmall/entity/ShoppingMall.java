@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Getter
 @Entity
 @NoArgsConstructor
-@Table(name = "seoul_of_shopping_malls")
+@Table(name = "shopping_malls_of_seoul")
 public class ShoppingMall extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)

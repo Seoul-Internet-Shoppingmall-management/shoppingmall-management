@@ -1,5 +1,7 @@
 package com.example.plusproject.shoppingmall.controller;
 
+import com.example.plusproject.common.exception.ApplicationException;
+import com.example.plusproject.common.exception.ErrorCode;
 import com.example.plusproject.filter.dto.ShoppingMallResponseDto;
 import com.example.plusproject.filter.dto.ShoppingMallUpdateRequestDto;
 import com.example.plusproject.shoppingmall.dto.response.ShoppingMallResponse;
@@ -16,6 +18,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.File;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -56,11 +62,12 @@ public class ShoppingMallController {
     ) {
         return ResponseEntity.ok(shoppingMallService.get(id));
     }
+
     // 쇼핑몰을 페이징해서 조회(필터 적용 가능)
-    @GetMapping("/api/v1/shopping-malls")
+    @GetMapping("/v1/shopping-malls")
     public ResponseEntity<Page<ShoppingMallResponse>> getShoppingMalls(
-            @RequestParam(required = false) StoreStatus storeStatus,
-            @RequestParam(required = false) TotalRating totalRating,
+            @RequestParam(required = false) String storeStatus, //
+            @RequestParam(required = false) Integer totalRating, //
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
             ) {
