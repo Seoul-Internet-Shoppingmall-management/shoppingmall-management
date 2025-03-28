@@ -69,7 +69,7 @@ public class ShoppingMallController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size
             ) {
-
+        System.out.println(121212);
         return ResponseEntity.ok(shoppingMallService.getShoppingMalls(storeStatus, totalRating, page, size));
     }
 

@@ -46,10 +46,10 @@ public class ShoppingMallService {
     @Transactional(readOnly = true)
     public Page<ShoppingMallResponse> getShoppingMalls(String storeStatus, Integer totalRating, int page, int size) {
 
-        Pageable pageable = PageRequest.of(page, size);
+        PageRequest pageable = PageRequest.of(page, size);
 
         Page<ShoppingMall> result;
-
+        System.out.println(131313);
         if (storeStatus != null && totalRating != null) {
             result = shoppingMallRepository.findByStoreStatusAndTotalRating(StoreStatus.of(storeStatus), TotalRating.of(totalRating), pageable);
         } else if (storeStatus != null) {
@@ -58,9 +58,9 @@ public class ShoppingMallService {
             result = shoppingMallRepository.findByTotalRating(TotalRating.of(totalRating), pageable);
         } else {
             result = shoppingMallRepository.findAll(pageable);
+            System.out.println(141414);
         }
-
-        return result.map(mall -> new ShoppingMallResponse(
+        Page<ShoppingMallResponse> responsePage = result.map(mall -> new ShoppingMallResponse(
                 mall.getId(),
                 mall.getCompanyName(),
                 mall.getStoreName(),
@@ -81,6 +81,7 @@ public class ShoppingMallService {
                 mall.getCreatedBy(),
                 mall.getModifiedBy()
         ));
+        return responsePage;
         }
 
     @Transactional(readOnly = true)
