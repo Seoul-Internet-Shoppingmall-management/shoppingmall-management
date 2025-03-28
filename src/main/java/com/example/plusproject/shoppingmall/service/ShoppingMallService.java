@@ -81,6 +81,7 @@ public class ShoppingMallService {
     @Value("${openapi.seoul.serviceKey}")
     private String serviceKey;
 
+    @Transactional
     public int importAllOpenApiData() {
 
         // 총 데이터 건수 확인용 URL 설정
@@ -124,7 +125,6 @@ public class ShoppingMallService {
         return totalInserted;   // 총 삽입된 행 수
     }
 
-    @Transactional
     public int importOpenApiData(int start, int end) {
 
         // URL 생성 start ~ end 범위 요청
