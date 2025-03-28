@@ -66,7 +66,7 @@ public class FilterService {
         List<ShoppingMall> shoppingMalls;
 
         if (storeStatus!=null) {
-            shoppingMalls = shoppingMallRepository.findBystoreStatus(storeStatus, sort);//storeStatus 검색
+            shoppingMalls = shoppingMallRepository.findByStoreStatus(storeStatus, sort);//storeStatus 검색
         } else {
             shoppingMalls = shoppingMallRepository.findAll(sort);//검색 지정이 없는 경우, 모두 출력
         }
@@ -110,9 +110,9 @@ public class FilterService {
 
         List<ShoppingMall> shoppingMalls;
 
-        if(startDateTime!=null && endDateTime!=null){ shoppingMalls = shoppingMallRepository.findBymonitoringDateBetween(startDateTime, endDateTime, sort); }//monitoringDate 검색
-        else if(startDateTime!=null){shoppingMalls = shoppingMallRepository.findBymonitoringDateAfter(startDateTime, sort);}
-        else if(endDateTime!=null){shoppingMalls = shoppingMallRepository.findBymonitoringDateBefore(endDateTime, sort);}
+        if(startDateTime!=null && endDateTime!=null){ shoppingMalls = shoppingMallRepository.findByMonitoringDateBetween(startDateTime, endDateTime, sort); }//monitoringDate 검색
+        else if(startDateTime!=null){shoppingMalls = shoppingMallRepository.findByMonitoringDateAfter(startDateTime, sort);}
+        else if(endDateTime!=null){shoppingMalls = shoppingMallRepository.findByMonitoringDateBefore(endDateTime, sort);}
         else{ shoppingMalls = shoppingMallRepository.findAll(sort); }//검색 지정이 없는 경우, 모두 출력
 
         return shoppingMalls.stream()

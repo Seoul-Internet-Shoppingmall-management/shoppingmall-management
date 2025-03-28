@@ -4,16 +4,14 @@ import com.example.plusproject.common.exception.ApplicationException;
 import com.example.plusproject.common.exception.ErrorCode;
 import com.example.plusproject.filter.dto.ShoppingMallResponseDto;
 import com.example.plusproject.filter.dto.ShoppingMallUpdateRequestDto;
+import com.example.plusproject.shoppingmall.dto.ImportResponseDto;
 import com.example.plusproject.shoppingmall.dto.response.ShoppingMallResponse;
-import com.example.plusproject.shoppingmall.entity.ShoppingMall;
-import com.example.plusproject.shoppingmall.enums.StoreStatus;
-import com.example.plusproject.shoppingmall.enums.TotalRating;
 import com.example.plusproject.shoppingmall.service.ShoppingMallService;
+import com.example.plusproject.user.enums.UserRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -75,4 +73,23 @@ public class ShoppingMallController {
         return ResponseEntity.ok(shoppingMallService.getShoppingMalls(storeStatus, totalRating, page, size));
     }
 
+    @PatchMapping("/v1/shopping-malls/{id}")
+    public ResponseEntity<Void> update(
+            @PathVariable Long id,
+            @RequestBody ShoppingMallUpdateRequestDto requestDto
+    ) {
+        shoppingMallService.update(id, requestDto);
+        return ResponseEntity.ok().build();
+    }
+
+    /*-------------------------------------------- Open API ----------------------------------------------------------*/
+
+    @Secured(UserRole.Authority.ADMIN)
+    @PostMapping("/v1/collection-openapi")
+    public ResponseEntity<ImportResponseDto> importOpenApi() {
+
+        int insertedRows = shoppingMallService.importAllOpenApiData();
+
+        return ResponseEntity.ok(new ImportResponseDto("데이터 입력 완료", insertedRows));
+    }
 }
