@@ -42,7 +42,7 @@ public class QueryDSLRepositoryImpl implements QueryDSLRepository {
             query.where(shoppingMall.id.gt(cursorId));
         }
 
-        // 페이지 크기보다 하나 더 많은 데이터를 가져와서, 마지막 아이템을 nextCursorId로 사용
+        // 페이지 크기보다 하나 더 많은 데이터를 가져와서, hasNext로 더보기가 있는지 여부 체크
         List<ShoppingMall> shoppingMalls = query.limit(pageable.getPageSize() + 1).fetch();
         boolean hasNext = shoppingMalls.size() > pageable.getPageSize();
         // 페이지 크기만큼 데이터 반환 (마지막 데이터를 제외)
