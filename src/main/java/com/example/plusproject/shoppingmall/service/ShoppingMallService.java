@@ -4,6 +4,7 @@ import com.example.plusproject.common.exception.ApplicationException;
 import com.example.plusproject.common.exception.ErrorCode;
 import com.example.plusproject.filter.dto.ShoppingMallResponseDto;
 import com.example.plusproject.filter.dto.ShoppingMallUpdateRequestDto;
+import com.example.plusproject.shoppingmall.dto.response.ShoppingMallResponse;
 import com.example.plusproject.shoppingmall.entity.ShoppingMall;
 import com.example.plusproject.shoppingmall.enums.StoreStatus;
 import com.example.plusproject.shoppingmall.enums.TotalRating;
@@ -17,6 +18,9 @@ import com.opencsv.exceptions.CsvValidationException;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
@@ -42,6 +46,45 @@ public class ShoppingMallService {
     private final ModelMapper modelMapper;
 
     private static final int BATCH_SIZE = 100;
+
+    @Transactional(readOnly = true)
+    public Page<ShoppingMallResponse> getShoppingMalls(String storeStatus, Integer totalRating, int page, int size) {
+
+        PageRequest pageable = PageRequest.of(page, size);
+
+        Page<ShoppingMall> result;
+        if (storeStatus != null && totalRating != null) {
+            result = shoppingMallRepository.findByStoreStatusAndTotalRating(StoreStatus.of(storeStatus), TotalRating.of(totalRating), pageable);
+        } else if (storeStatus != null) {
+            result = shoppingMallRepository.findByStoreStatus(StoreStatus.of(storeStatus), pageable);
+        } else if (totalRating != null) {
+            result = shoppingMallRepository.findByTotalRating(TotalRating.of(totalRating), pageable);
+        } else {
+            result = shoppingMallRepository.findAll(pageable);
+        }
+        Page<ShoppingMallResponse> responsePage = result.map(mall -> new ShoppingMallResponse(
+                mall.getId(),
+                mall.getCompanyName(),
+                mall.getStoreName(),
+                mall.getDomainName(),
+                mall.getOperatorEmail(),
+                mall.getBusinessType(),
+                mall.getRegistrationDate(),
+                mall.getCompanyAddress(),
+                mall.getStoreStatus(),
+                mall.getTotalRating(),
+                mall.getMainProducts(),
+                mall.getSubscriptionWithdrawalAvailable(),
+                mall.getHomepageRequiredItems(),
+                mall.getTermsOfServiceCompliance(),
+                mall.getEstimateDeliveryDateDisplay(),
+                mall.getWithdrawalShippingCostResponsibility(),
+                mall.getMonitoringDate(),
+                mall.getCreatedBy().getId(),
+                mall.getModifiedBy().getId()
+        ));
+        return responsePage;
+        }
 
     @Transactional(readOnly = true)
     public ShoppingMallResponseDto get(Long id) {

@@ -5,17 +5,21 @@ import com.example.plusproject.common.exception.ErrorCode;
 import com.example.plusproject.filter.dto.ShoppingMallResponseDto;
 import com.example.plusproject.filter.dto.ShoppingMallUpdateRequestDto;
 import com.example.plusproject.shoppingmall.dto.ImportResponseDto;
+import com.example.plusproject.shoppingmall.dto.response.ShoppingMallResponse;
 import com.example.plusproject.shoppingmall.service.ShoppingMallService;
 import com.example.plusproject.user.enums.UserRole;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-
 
 @RestController
 @RequiredArgsConstructor
@@ -57,11 +61,22 @@ public class ShoppingMallController {
         return ResponseEntity.ok(shoppingMallService.get(id));
     }
 
+    // 쇼핑몰을 페이징해서 조회(필터 적용 가능)
+    @GetMapping("/v1/shopping-malls")
+    public ResponseEntity<Page<ShoppingMallResponse>> getShoppingMalls(
+            @RequestParam(required = false) String storeStatus,
+            @RequestParam(required = false) Integer totalRating,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size
+            ) {
+        return ResponseEntity.ok(shoppingMallService.getShoppingMalls(storeStatus, totalRating, page, size));
+    }
+
     @PatchMapping("/v1/shopping-malls/{id}")
     public ResponseEntity<Void> update(
             @PathVariable Long id,
             @RequestBody ShoppingMallUpdateRequestDto requestDto
-            ) {
+    ) {
         shoppingMallService.update(id, requestDto);
         return ResponseEntity.ok().build();
     }
