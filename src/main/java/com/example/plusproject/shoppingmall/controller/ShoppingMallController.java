@@ -76,4 +76,9 @@ public class ShoppingMallController {
 
         return ResponseEntity.ok(new ImportResponseDto("데이터 입력 완료", insertedRows));
     }
+
+    @PostMapping("/v1/collections")
+    public void uploadCSV(@RequestParam("file") MultipartFile file) {
+        shoppingMallService.saveCSV(file);
+    }
 }

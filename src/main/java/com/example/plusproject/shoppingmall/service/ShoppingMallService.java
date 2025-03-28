@@ -20,9 +20,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -262,5 +266,47 @@ public class ShoppingMallService {
                 .withdrawalShippingCostResponsibility(line[27])
                 .monitoringDate(LocalDate.now())
                 .build();
+    }
+
+    @Transactional
+    public void saveCSV(MultipartFile file) {
+        try (BufferedReader reader = new BufferedReader(new InputStreamReader(file.getInputStream(), StandardCharsets.UTF_8))) {
+            String line;
+            boolean isFirstLine = true;
+
+            while ((line = reader.readLine()) != null) {
+                if (isFirstLine) { // 첫 번째 줄은 헤더이므로 건너뜀
+                    isFirstLine = false;
+                    continue;
+                }
+
+                String[] data = line.split(",");
+                if (data.length != 17) continue; // 필드 개수 확인
+
+                ShoppingMall shoppingMall = new ShoppingMall(
+                        data[0],  // companyName
+                        data[1],  // storeName
+                        data[2],  // domainName
+                        data[3],  // phoneNumber
+                        data[4],  // operatorEmail
+                        data[5],  // businessType
+                        LocalDate.parse(data[6]),  // registrationDate
+                        data[7],  // companyAddress
+                        StoreStatus.valueOf(data[8]),  // storeStatus
+                        TotalRating.valueOf(data[9]),  // totalRating
+                        data[10], // mainProducts
+                        data[11], // subscriptionWithdrawalAvailable
+                        data[12], // homepageRequiredItems
+                        data[13], // termsOfServiceCompliance
+                        data[14], // estimateDeliveryDateDisplay
+                        data[15], // withdrawalShippingCostResponsibility
+                        LocalDate.parse(data[16])  // monitoringDate
+                );
+
+                shoppingMallRepository.save(shoppingMall);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("CSV 파일 처리 중 오류 발생", e);
+        }
     }
 }
